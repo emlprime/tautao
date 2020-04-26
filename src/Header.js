@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import Breadcrumb from "./Breadcrumb";
 
-function Header() {
+function Header(props) {
   return (
     <Style position="static">
       <h1>Tau Tao</h1>
       <nav>
-        <ul>
-          <li>Tau Tao</li>
-        </ul>
+        <Breadcrumb {...props} />
       </nav>
     </Style>
   );
