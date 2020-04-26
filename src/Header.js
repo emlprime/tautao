@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 
 function Header(props) {
   return (
     <Style position="static">
-      <h1>Tau Tao</h1>
+      <h1>
+        <Link to="/">Tau Tao</Link>
+      </h1>
       <nav>
         <Breadcrumb {...props} />
       </nav>
