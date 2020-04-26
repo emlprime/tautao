@@ -40,7 +40,7 @@ function App() {
         </Route>
         <main>
           <Route exact path="/">
-            <Project />
+            <Project projectName={projectName} />
           </Route>
           <Route path="/task/:taskId">
             <Task />
