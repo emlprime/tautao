@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { always, map, unless, isEmpty } from "ramda";
+import * as R from "ramda";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { DataContext } from "./DataContext";
@@ -7,21 +7,53 @@ import { DataContext } from "./DataContext";
 function Spacer() {
   return <span>&nbsp;&gt;&nbsp;</span>;
 }
-function Breadcrumb({ projectName, crumbs = [] }) {
+
+const buildTaskPath = R.pipe(
+  R.prop("taskId"),
+  R.append(R.__, ["byId"])
+);
+
+const formatCrumb = R.pick(["id", "name"]);
+
+const findAncestor = ({ taskId, task, context: { byId, rootIds } }) => {
+  const crumb = formatCrumb(task);
+  if (R.includes(taskId, rootIds)) {
+    return [crumb];
+  } else {
+    const parent = R.find(R.pathSatisfies(R.includes(taskId)))(R.values(byId));
+    return R.append(
+      crumb,
+      findAncestor({ taskId: parent.id, task: parent, context: { byId, rootIds } })
+    );
+  }
+};
+
+const traceAncestry = props =>
+  R.pipe(
+    R.converge(R.assoc("task"), [
+      R.converge(R.path, [buildTaskPath, R.prop("context")]),
+      R.identity
+    ]),
+    findAncestor
+  )(props);
+
+function Breadcrumb({ projectName }) {
   const { taskId } = useParams();
+
   const context = useContext(DataContext);
-  console.log("context:", context, taskId);
+
+  const crumbs = taskId ? traceAncestry({ context, taskId }) : [];
 
   return (
     <Ul>
       <li>
         <Link to="/">{projectName}</Link>
       </li>
-      {map(
+      {R.map(
         ({ id, name }) => (
           <li key={id}>
             <Spacer />
-            {name}
+            <Link to={`/task/${id}`}>{name}</Link>
           </li>
         ),
         crumbs
