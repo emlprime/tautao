@@ -49,4 +49,11 @@ table {
 	border-spacing: 0;
 }
 }
+input, textarea {
+    background-color: #333;
+    border: none;
+    color: #777;
+
+}
+
 `;

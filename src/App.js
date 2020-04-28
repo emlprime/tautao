@@ -20,10 +20,10 @@ function App() {
         name: "bar",
         taskIds: ["jkl234", "dfw432"]
       },
-      xyz345: { id: "xyz345", name: "blah" },
-      wer343: { id: "wer343", name: "stuff" },
-      jkl234: { id: "jkl234", name: "foobar" },
-      dfw432: { id: "dfw432", name: "things" }
+      xyz345: { id: "xyz345", name: "blah", points: 2 },
+      wer343: { id: "wer343", name: "stuff", points: 3 },
+      jkl234: { id: "jkl234", name: "foobar", points: 5 },
+      dfw432: { id: "dfw432", name: "things", points: 2 }
     },
     rootIds: ["abc123", "def234"]
   };

@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { DataContext } from "./DataContext";
-import TaskListItem from "./TaskListItem";
 import FieldText from "./FieldText";
 import FieldNumber from "./FieldNumber";
 import FieldTextMultiline from "./FieldTextMultiline";
+import TaskList from "./TaskList";
 
 function Project({ projectName, goal, strategy, velocity }) {
   const context = useContext(DataContext);
@@ -23,7 +23,7 @@ function Project({ projectName, goal, strategy, velocity }) {
       </fieldset>
       <ul>
         <label>Milestones:</label>
-        {R.map(id => <TaskListItem key={id} taskId={id} />)(rootIds)}
+        <TaskList rootIds={rootIds} />
       </ul>
     </Style>
   );
