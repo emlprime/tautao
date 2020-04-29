@@ -13,7 +13,7 @@ function TaskListItem({ taskId }) {
   const { name } = R.path(["byId", taskId], context);
   return (
     <Draggable onDrag={console.log} onDragEnd={console.log} id={taskId}>
-      <Style>
+      <Style id={`item_${taskId}`}>
         <DnDHandle />
         <Link to={`/task/${taskId}`}>{name}</Link>
         <Points />

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 
 function DnDHandle() {
@@ -6,7 +6,7 @@ function DnDHandle() {
 }
 export default DnDHandle;
 
-const Style = styled.li`
+const Style = styled.div`
   background-color: #444;
   width: 16px;
   height: 16px;

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import TaskListItem from "./TaskListItem";
-import Draggable from "./Draggable";
 
 function TaskList({ rootIds }) {
   return <Style>{R.map(id => <TaskListItem key={id} taskId={id} />)(rootIds)}</Style>;
