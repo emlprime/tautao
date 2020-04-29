@@ -21,10 +21,7 @@ function Project({ projectName, goal, strategy, velocity }) {
           <FieldNumber label="Sprint Velocity" name="velocity" value="3" />
         </ul>
       </fieldset>
-      <ul>
-        <label>Milestones:</label>
-        <TaskList rootIds={rootIds} />
-      </ul>
+      <TaskList rootIds={rootIds} />
     </Style>
   );
 }
@@ -33,15 +30,12 @@ export default Project;
 
 const Style = styled.section`
   display: grid;
+
   grid-template: "form milestones" 80vh / 1fr 1fr;
   fieldset li {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-  }
-
-  > ul {
-    padding-top: 1rem;
   }
 
   #velocity {

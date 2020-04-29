@@ -23,9 +23,13 @@ function App() {
       xyz345: { id: "xyz345", name: "blah", points: 2 },
       wer343: { id: "wer343", name: "stuff", points: 3 },
       jkl234: { id: "jkl234", name: "foobar", points: 5 },
-      dfw432: { id: "dfw432", name: "things", points: 2 }
+      dfw432: { id: "dfw432", name: "things", points: 2 },
+      task3: { id: "task3", name: "task3" },
+      task4: { id: "task4", name: "task4" },
+      task5: { id: "task5", name: "task5" },
+      task6: { id: "task6", name: "task6" }
     },
-    rootIds: ["abc123", "def234"]
+    rootIds: ["abc123", "def234", "task3", "task4", "task5", "task6"]
   };
 
   return (
