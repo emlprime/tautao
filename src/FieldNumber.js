@@ -1,11 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-function FieldNumber({ label, name, value, max, min = 1 }) {
+function FieldNumber({ label, name, value, max, min = 1, handleChange }) {
   return (
     <Style>
       <label>{label}:</label>
-      <input type="number" id={name} name={name} value={value} min={min} max={max} />
+      <input
+        type="number"
+        id={name}
+        name={name}
+        value={value}
+        min={min}
+        max={max}
+        onChange={handleChange}
+      />
     </Style>
   );
 }

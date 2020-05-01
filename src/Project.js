@@ -11,14 +11,25 @@ function Project({ projectName, goal, strategy, velocity }) {
   const context = useContext(DataContext);
   const rootIds = R.path(["rootIds"], context);
 
+  const handleChange = () => null;
   return (
     <Style>
       <fieldset>
         <ul>
-          <FieldText label="Name" name="name" value="foo" />
-          <FieldTextMultiline label="Goal" name="goal" value="bar" />
-          <FieldTextMultiline label="Strategy" name="strategy" value="blah" />
-          <FieldNumber label="Sprint Velocity" name="velocity" value="3" />
+          <FieldText label="Name" name="name" value="foo" handleChange={handleChange} />
+          <FieldTextMultiline label="Goal" name="goal" value="bar" handleChange={handleChange} />
+          <FieldTextMultiline
+            label="Strategy"
+            name="strategy"
+            value="blah"
+            handleChange={handleChange}
+          />
+          <FieldNumber
+            label="Sprint Velocity"
+            name="velocity"
+            value="3"
+            handleChange={handleChange}
+          />
         </ul>
       </fieldset>
       <TaskList rootIds={rootIds} />

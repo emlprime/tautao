@@ -35,8 +35,8 @@ const Draggable = ({ children, id, onDrag, onDragEnd }) => {
       ...state,
       isDragging: false
     }));
-    onDragEnd();
-  }, [onDragEnd]);
+    onDragEnd(id);
+  }, [onDragEnd, id]);
 
   useEffect(() => {
     if (state.isDragging) {
@@ -57,10 +57,9 @@ const Draggable = ({ children, id, onDrag, onDragEnd }) => {
       zIndex: state.isDragging ? 2 : 1,
       position: state.isDragging ? "absolute" : "relative",
       width: `${state.width}px`,
-      backgroundColor: `#000`,
-      boxShadow: state.isDragging ? "4px 4px 4px 1px rgb(40, 40, 40, 0.6)" : "none"
+      backgroundColor: `#000`
     }),
-    [state.isDragging, state.translation]
+    [state.isDragging, state.translation, state.width]
   );
 
   return (
