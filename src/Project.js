@@ -9,10 +9,15 @@ import TaskList from "./TaskList";
 
 function Project() {
   const { state } = useStore();
+  console.log("state:", state);
   const projectId = R.prop("currentProjectId", state);
-  const { name, goal, strategy, velocity } = R.pathOr([], ["byId", "projects", projectId], state);
+  const { name, goal, strategy, velocity, rootIds } = R.pathOr(
+    [],
+    ["byId", "projects", projectId],
+    state
+  );
+  console.log("rootIds:", rootIds);
 
-  const rootIds = [];
   const handleChange = () => null;
   return (
     <Style>

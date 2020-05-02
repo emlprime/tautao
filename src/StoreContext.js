@@ -14,7 +14,7 @@ function putData(data) {
 }
 
 export async function getData() {
-  const result = await fetch("https:api.jsonbin.io/v3/b/5ea36ee698b3d53752340233/1", {
+  const result = await fetch("https:api.jsonbin.io/v3/b/5ea36ee698b3d53752340233/2", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

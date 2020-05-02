@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-function Points() {
-  return <Style>3</Style>;
+function Points({ points }) {
+  return <Style>{points}</Style>;
 }
 
 export default Points;
