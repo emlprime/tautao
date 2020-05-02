@@ -7,28 +7,29 @@ import FieldNumber from "./FieldNumber";
 import FieldTextMultiline from "./FieldTextMultiline";
 import TaskList from "./TaskList";
 
-function Project({ projectName, goal, strategy, velocity }) {
+function Project() {
   const { state } = useStore();
-  const rootIds = R.pathOr([], ["rootIds"], state);
-  console.log("rootIds:", rootIds);
+  const projectId = R.prop("currentProjectId", state);
+  const { name, goal, strategy, velocity } = R.pathOr([], ["byId", "projects", projectId], state);
 
+  const rootIds = [];
   const handleChange = () => null;
   return (
     <Style>
       <fieldset>
         <ul>
-          <FieldText label="Name" name="name" value="foo" handleChange={handleChange} />
-          <FieldTextMultiline label="Goal" name="goal" value="bar" handleChange={handleChange} />
+          <FieldText label="Name" name="name" value={name} handleChange={handleChange} />
+          <FieldTextMultiline label="Goal" name="goal" value={goal} handleChange={handleChange} />
           <FieldTextMultiline
             label="Strategy"
             name="strategy"
-            value="blah"
+            value={strategy}
             handleChange={handleChange}
           />
           <FieldNumber
             label="Sprint Velocity"
             name="velocity"
-            value="3"
+            value={velocity}
             handleChange={handleChange}
           />
         </ul>
