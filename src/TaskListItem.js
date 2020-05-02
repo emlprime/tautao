@@ -14,8 +14,10 @@ function TaskListItem({ taskId }) {
     <Style id={`item_${taskId}`}>
       <DnDHandle />
       <Link to={`/task/${taskId}`}>{name}</Link>
-      <Points points={points} />
-      <Progress />
+      <Totals>
+        <Points points={points} />
+        <Progress />
+      </Totals>
     </Style>
   );
 }
@@ -31,4 +33,11 @@ const Style = styled.li`
   display: grid;
   align-items: center;
   grid-template: "dndhandle link points progress"/32px 1fr 32px 32px;
+`;
+
+const Totals = styled.div`
+  display: flex;
+  width: 70px;
+  justify-content: space-between;
+  margin-right: 6px;
 `;
