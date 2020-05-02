@@ -16,7 +16,6 @@ const buildTaskPath = R.pipe(
 const formatCrumb = R.pick(["id", "name"]);
 
 const findAncestor = ({ id, task, state: { byId, currentProjectId } }) => {
-  console.log("task:", task);
   const rootIds = R.path(["projects", currentProjectId, "rootIds"], byId);
   const crumb = formatCrumb(task);
 

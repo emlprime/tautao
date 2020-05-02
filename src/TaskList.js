@@ -16,7 +16,6 @@ const TaskList = ({ rootIds }) => {
     R.map(getPointsByItem),
     R.sum
   )(rootIds);
-  console.log("points:", totalPoints);
 
   const name = "Milestones";
   const handleNewOrder = useCallback(order => {
