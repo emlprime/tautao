@@ -49,14 +49,14 @@ function App() {
       <Route exact path="/">
         <Header />
       </Route>
-      <Route path="/task/:taskId">
+      <Route path="/task/:id">
         <Header projectName={projectName} />
       </Route>
       <main>
         <Route exact path="/">
           <Project projectName={projectName} />
         </Route>
-        <Route path="/task/:taskId">
+        <Route path="/task/:id">
           <Task />
         </Route>
       </main>

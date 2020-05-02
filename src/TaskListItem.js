@@ -9,14 +9,15 @@ import Progress from "./Progress";
 
 function TaskListItem({ taskId }) {
   const { state } = useStore();
-  const { name, points } = R.path(["byId", R.prop("model", taskId), R.prop("id", taskId)], state);
+  const id = R.prop("id", taskId);
+  const { name, points } = R.path(["byId", R.prop("model", taskId), id], state);
 
   const counts = { todoCount: 7, doingCount: 4, doneCount: 5 };
 
   return (
-    <Style id={`item_${taskId}`}>
+    <Style id={`item_${id}`}>
       <DnDHandle />
-      <Link to={`/task/${taskId}`}>{name}</Link>
+      <Link to={`/task/${id}`}>{name}</Link>
       <Totals>
         <Points points={points} />
         <Progress counts={counts} />

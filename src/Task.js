@@ -8,9 +8,10 @@ import TaskListItem from "./TaskListItem";
 const handleChange = e => console.log("e:", e.target.value);
 
 function Task() {
-  const { taskId } = useParams();
+  const { id } = useParams();
+  console.log("taskId:", id);
   const { state } = useStore();
-  const { name, taskIds = [] } = R.path(["byId", taskId], state);
+  const { name, taskIds = [] } = R.path(["byId", "items", id], state);
 
   return (
     <Style>
