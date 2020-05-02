@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import * as R from "ramda";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { DataContext } from "./DataContext";
+import { useStore } from "./StoreContext";
 
 function Spacer() {
   return <span>&nbsp;&gt;&nbsp;</span>;
@@ -40,9 +40,9 @@ const traceAncestry = props =>
 function Breadcrumb({ projectName }) {
   const { taskId } = useParams();
 
-  const context = useContext(DataContext);
+  const { state } = useStore();
 
-  const crumbs = taskId ? traceAncestry({ context, taskId }) : [];
+  const crumbs = taskId ? traceAncestry({ state, taskId }) : [];
 
   return (
     <Ul>

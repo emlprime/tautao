@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
-import { DataContext } from "./DataContext";
+import { useStore } from "./StoreContext";
 import FieldText from "./FieldText";
 import FieldNumber from "./FieldNumber";
 import FieldTextMultiline from "./FieldTextMultiline";
 import TaskList from "./TaskList";
 
 function Project({ projectName, goal, strategy, velocity }) {
-  const context = useContext(DataContext);
-  const rootIds = R.path(["rootIds"], context);
+  const { state } = useStore();
+  const rootIds = R.pathOr([], ["rootIds"], state);
+  console.log("rootIds:", rootIds);
 
   const handleChange = () => null;
   return (

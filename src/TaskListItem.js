@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { Link } from "react-router-dom";
-import { DataContext } from "./DataContext";
+import { useStore } from "./StoreContext";
 import DnDHandle from "./DnDHandle";
 import Points from "./Points";
 import Progress from "./Progress";
 
 function TaskListItem({ taskId }) {
-  const context = useContext(DataContext);
-  const { name } = R.path(["byId", taskId], context);
+  const { state } = useStore();
+  const { name } = R.path(["byId", "items", taskId], state);
   return (
     <Style id={`item_${taskId}`}>
       <DnDHandle />

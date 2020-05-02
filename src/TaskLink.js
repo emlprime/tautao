@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { Link } from "react-router-dom";
-import { DataContext } from "./DataContext";
+import { useStore } from "./StoreContext";
 
 function TaskLink({ taskId }) {
-  const context = useContext(DataContext);
-  const { id, name } = R.path(["byId", taskId], context);
+  const { state } = useStore();
+  const { id, name } = R.pathOr({}, ["byId", taskId], state);
   return <Style to={`/task/${id}`}>{name}</Style>;
 }
 

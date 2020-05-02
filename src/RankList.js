@@ -12,7 +12,11 @@ const range = R.range(0);
 
 const HEIGHT = 40;
 
-const RankList = ({ items, handleNewOrder }) => {
+const rankChanged = ([index, prevIndex]) => R.not(R.equals(index, prevIndex));
+
+const changeRank = R.curry((dispatch, newItems) => R.pipe(R.filter(rankChanged)));
+
+const RankList = ({ items, handleNewOrder, dispatch }) => {
   const countOfItems = items.length;
   const itemIndices = range(countOfItems);
   const [state, setState] = useState({
@@ -51,9 +55,11 @@ const RankList = ({ items, handleNewOrder }) => {
   }, []);
 
   useEffect(() => {
-    console.log("order changed", state.order, items);
-    mapIndexed((itemsIndex, i) => console.log(i, itemsIndex, items[itemsIndex]))(state.order);
-  }, [state.order, items]);
+    R.pipe(
+      mapIndexed((itemsIndex, i) => [i, itemsIndex, items[itemsIndex]]),
+      changeRank(dispatch)
+    )(state.order);
+  }, [state.order, items, dispatch]);
 
   return (
     <Container>

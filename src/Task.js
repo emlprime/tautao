@@ -1,16 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { useParams } from "react-router-dom";
-import { DataContext } from "./DataContext";
+import { useStore } from "./StoreContext";
 import TaskListItem from "./TaskListItem";
 
 const handleChange = e => console.log("e:", e.target.value);
 
 function Task() {
   const { taskId } = useParams();
-  const context = useContext(DataContext);
-  const { name, taskIds = [] } = R.path(["byId", taskId], context);
+  const { state } = useStore();
+  const { name, taskIds = [] } = R.path(["byId", taskId], state);
 
   return (
     <Style>
