@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Project from "./Project";
 import Task from "./Task";
+import dayjs from "dayjs";
 import { useStore, getData } from "./StoreContext";
 
 const defaultToObj = R.defaultTo({});
@@ -27,6 +28,16 @@ function App() {
       setStatus("resolved");
     }
   }, [dispatch, status]);
+
+  const editDebounceInSec = 10;
+  useEffect(() => {
+    if (R.not(R.isNil(state.lastMutation))) {
+      const timer = setTimeout(() => {
+        dispatch({ type: "PERSIST_DATA" });
+      }, editDebounceInSec * 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.lastMutation]);
 
   useEffect(() => {
     R.ifElse(

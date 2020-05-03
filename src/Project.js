@@ -8,7 +8,7 @@ import FieldTextMultiline from "./FieldTextMultiline";
 import TaskList from "./TaskList";
 
 function Project() {
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
 
   const projectId = R.prop("currentProjectId", state);
   const { name, goal, strategy, velocity, rootIds } = R.pathOr(
@@ -17,7 +17,11 @@ function Project() {
     state
   );
 
-  const handleChange = () => null;
+  const handleChange = e =>
+    dispatch({
+      type: "MERGE_VALUE",
+      payload: { path: ["byId", "projects", projectId, e.target.name], value: e.target.value }
+    });
   return (
     <Style>
       <fieldset>
