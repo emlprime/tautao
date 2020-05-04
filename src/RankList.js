@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useReducer } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import TaskListItem from "./TaskListItem";
-import Draggable from "./Draggable";
 
 const mapIndexed = R.addIndex(R.map);
 const rankChanged = ([index, prevIndex]) => R.not(R.equals(index, prevIndex));
@@ -13,93 +12,68 @@ const range = R.range(0);
 
 const HEIGHT = 40;
 
-const RankList = ({ items, handleNewOrder }) => {
-  const countOfItems = items.length;
-  const itemIndices = range(countOfItems);
-  const [state, setState] = useState({
-    order: itemIndices,
-    dragOrder: itemIndices, // items order while dragging
-    draggedIndex: null
-  });
+const rejectIndexed = R.addIndex(R.reject);
+const reflowedSubset = R.curry((superset, selection) =>
+  R.map(R.pipe(R.prop(R.__, superset)))(selection)
+);
+const withSubsetRejected = R.curry((superset, selection) =>
+  rejectIndexed((i, index) => R.includes(index, selection))(superset)
+);
 
-  const handleDrag = useCallback(
-    ({ translation, id }) => {
-      console.log("translation:", translation);
-      const delta = Math.round(translation.y / HEIGHT);
-      const index = state.order.indexOf(id);
-      const dragOrder = state.order.filter(index => index !== id);
+const spliceReflowedSelection = R.curry((superset, selection) =>
+  R.converge(R.insertAll(R.head(selection)), [
+    reflowedSubset(superset),
+    withSubsetRejected(superset)
+  ])(selection)
+);
 
-      if (!inRange(index + delta, 0, countOfItems)) {
-        return;
-      }
-
-      dragOrder.splice(index + delta, 0, id);
-
-      setState(state => ({
-        ...state,
-        draggedIndex: id,
-        dragOrder
-      }));
-    },
-    [state.order, countOfItems]
+const indexOfOrNil = R.curry((list, value) => {
+  return R.pipe(R.ifElse(R.pipe(R.includes(R.__, list)), R.indexOf(R.__, list), R.always("")))(
+    value
   );
+});
 
-  const handleDragEnd = useCallback(id => {
-    console.log("order:", state.dragOrder);
-    setState(state => ({
-      ...state,
-      order: state.dragOrder,
-      draggedIndex: null
-    }));
-  }, []);
+const reducer = (state, action) => {
+  const { index } = action;
+  const result = R.ifElse(R.includes(index), R.reject(index), R.append(index))(state);
+  return result;
+};
 
-  useEffect(() => {
-    R.pipe(
-      mapIndexed((itemsIndex, i) => [i, itemsIndex, items[itemsIndex]]),
-      R.any(rankChanged),
+const RankList = ({ items, handleNewOrder }) => {
+  const [selected, dispatch] = useReducer(reducer, []);
 
-      R.ifElse(R.equals(true), () => handleNewOrder(state.order), R.always())
-    )(state.order);
-  }, [state.order, handleNewOrder]);
+  const countOfItems = items.length;
+  const indexOfSelectedOrNil = indexOfOrNil(selected);
+  const handleReflowItems = useCallback(() => {
+    handleNewOrder(spliceReflowedSelection(items, selected));
+  }, [items, selected]);
 
   return (
-    <Container>
-      {itemIndices.map(index => {
-        const isDragging = state.draggedIndex === index;
-        const top = state.dragOrder.indexOf(index) * (HEIGHT + 10);
-        const draggedTop = state.order.indexOf(index) * (HEIGHT + 10);
-        const shadow = isDragging ? "2px 5px 8px rgba(60, 60, 60, 0.85)" : "none";
-        return (
-          <Draggable key={index} id={index} onDrag={handleDrag} onDragEnd={handleDragEnd}>
-            <Rect isDragging={isDragging} top={isDragging ? draggedTop : top} shadow={shadow}>
-              <TaskListItem taskId={items[index]} />
-            </Rect>
-          </Draggable>
-        );
-      })}
-    </Container>
+    <Style>
+      <button type="button" onClick={() => handleReflowItems()}>
+        Reorder
+      </button>
+      <ul>
+        {mapIndexed((item, index) => {
+          return (
+            <TaskListItem
+              taskId={item}
+              selectionIndex={indexOfSelectedOrNil(index)}
+              handleClick={() => dispatch({ index })}
+            />
+          );
+        })(items)}
+      </ul>
+    </Style>
   );
 };
 
 export default RankList;
 
-const Container = styled.ul`
-  position: relative;
-`;
-
-const Rect = styled.div.attrs(props => ({
-  style: {
-    transition: props.isDragging ? "none" : "all 500ms"
+const Style = styled.section`
+  button {
+    background-color: #000;
+    border-color: #333;
+    color: #444;
   }
-}))`
-  width: 100%;
-  user-select: none;
-  height: ${HEIGHT}px;
-  box-shadow: ${({ shadow }) => shadow};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: ${({ top }) => 10 + top}px;
-  background-color: #000;
 `;

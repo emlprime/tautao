@@ -9,7 +9,19 @@
           "model": "items"
         },
         {
-          "id": "milestone0",
+          "id": "milestone6",
+          "model": "items"
+        },
+        {
+          "id": "milestone1",
+          "model": "items"
+        },
+        {
+          "id": "milestone7",
+          "model": "items"
+        },
+        {
+          "id": "milestone5",
           "model": "items"
         },
         {
@@ -21,19 +33,7 @@
           "model": "items"
         },
         {
-          "id": "milestone5",
-          "model": "items"
-        },
-        {
-          "id": "milestone6",
-          "model": "items"
-        },
-        {
-          "id": "milestone1",
-          "model": "items"
-        },
-        {
-          "id": "milestone7",
+          "id": "milestone0",
           "model": "items"
         },
         {

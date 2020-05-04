@@ -18,13 +18,14 @@ const TaskList = ({ rootIds, path }) => {
   )(rootIds);
 
   const name = "Milestones";
+
   const handleNewOrder = useCallback(
-    order => {
-      const newRootIds = R.map(R.pipe(R.prop(R.__, rootIds)))(order);
-      dispatch({ type: "MERGE_VALUE", payload: { path, value: newRootIds } });
+    newIds => {
+      dispatch({ type: "MERGE_VALUE", payload: { path, value: newIds } });
     },
     [dispatch, path, rootIds]
   );
+
   return (
     <Style>
       <header>
@@ -50,6 +51,7 @@ const Style = styled.section`
     justify-content: space-between;
   }
   ul {
+    padding: 0.1rem;
     height: 330px;
     overflow-y: scroll;
     outline: 1px solid rgba(70, 70, 70, 0.3);
