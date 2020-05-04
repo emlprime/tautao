@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import * as R from "ramda";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
@@ -30,15 +30,14 @@ const isChanged = R.pipe(
   exists
 );
 
-const pathProjectRootIds = R.pathOr([], ["byId", "projects", "abc123", "rootIds"]);
-
 const loowiToObj = R.reduce((acc, item) => R.assoc(item.id, item, acc), {});
 
 const App = () => {
-  const { state, dispatch, fakeDispatch } = useStore();
+  const { state, dispatch } = useStore();
 
+  const isPending = isNotResolved(state);
   const loadData = useCallback(async () => {
-    if (isNotResolved(state)) {
+    if (isPending) {
       const projectData = await getData("projects/abc123");
       const itemsData = await getData("items");
 
@@ -50,7 +49,7 @@ const App = () => {
         }
       });
     }
-  }, [dispatch, state.status]);
+  }, [dispatch, isPending]);
 
   const persistData = useCallback(data => {
     console.log("path:", formatIds(R.path(["byId", "projects", "abc123", "rootIds"], data)));
@@ -67,16 +66,11 @@ const App = () => {
     R.isNil
   )(state);
 
-  const rootIds = R.pipe(
-    pathProjectRootIds,
-    formatIds
-  )(state);
-
   useEffect(() => {
     if (shouldPersistData) {
       persistData(state);
     }
-  }, [shouldPersistData]);
+  }, [shouldPersistData, persistData, state]);
 
   useEffect(() => {
     if (shouldSetPersistDataTimeout) {
@@ -91,7 +85,7 @@ const App = () => {
     if (shouldLoadData) {
       loadData();
     }
-  }, [loadData]);
+  }, [loadData, shouldLoadData]);
 
   const { name: projectName } = getCurrentProject(state);
 

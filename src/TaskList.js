@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Progress from "./Progress";
 import Points from "./Points";
 import { useStore } from "./StoreContext";
-import { formatIds } from "./utils";
 
 const getPoints = R.curry((state, model, id) => R.path(["byId", model, id, "points"], state));
 
@@ -19,10 +18,13 @@ const TaskList = ({ rootIds, path }) => {
   )(rootIds);
 
   const name = "Milestones";
-  const handleNewOrder = useCallback(order => {
-    const newRootIds = R.map(R.pipe(R.prop(R.__, rootIds)))(order);
-    dispatch({ type: "MERGE_VALUE", payload: { path, value: newRootIds } });
-  }, []);
+  const handleNewOrder = useCallback(
+    order => {
+      const newRootIds = R.map(R.pipe(R.prop(R.__, rootIds)))(order);
+      dispatch({ type: "MERGE_VALUE", payload: { path, value: newRootIds } });
+    },
+    [dispatch, path, rootIds]
+  );
   return (
     <Style>
       <header>

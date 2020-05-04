@@ -5,23 +5,19 @@
       "name": "tau tao",
       "rootIds": [
         {
-          "id": "milestone0",
-          "model": "items"
-        },
-        {
-          "id": "milestone1",
-          "model": "items"
-        },
-        {
           "id": "milestone2",
           "model": "items"
         },
         {
-          "id": "milestone3",
+          "id": "milestone0",
           "model": "items"
         },
         {
           "id": "milestone4",
+          "model": "items"
+        },
+        {
+          "id": "milestone3",
           "model": "items"
         },
         {
@@ -30,6 +26,10 @@
         },
         {
           "id": "milestone6",
+          "model": "items"
+        },
+        {
+          "id": "milestone1",
           "model": "items"
         },
         {

@@ -13,7 +13,7 @@ const range = R.range(0);
 
 const HEIGHT = 40;
 
-const RankList = ({ items, handleNewOrder, dispatch }) => {
+const RankList = ({ items, handleNewOrder }) => {
   const countOfItems = items.length;
   const itemIndices = range(countOfItems);
   const [state, setState] = useState({
@@ -24,6 +24,7 @@ const RankList = ({ items, handleNewOrder, dispatch }) => {
 
   const handleDrag = useCallback(
     ({ translation, id }) => {
+      console.log("translation:", translation);
       const delta = Math.round(translation.y / HEIGHT);
       const index = state.order.indexOf(id);
       const dragOrder = state.order.filter(index => index !== id);
@@ -44,6 +45,7 @@ const RankList = ({ items, handleNewOrder, dispatch }) => {
   );
 
   const handleDragEnd = useCallback(id => {
+    console.log("order:", state.dragOrder);
     setState(state => ({
       ...state,
       order: state.dragOrder,

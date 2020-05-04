@@ -1,10 +1,7 @@
 import React, { createContext, useReducer, useContext } from "react";
 import * as R from "ramda";
 import dayjs from "dayjs";
-import { formatIds } from "./utils";
 
-const SECRET_KEY = process.env.REACT_APP_JSON_SERVER_SECRET_KEY;
-// const binRoute = "https:api.jsonbin.io/v3/b/5ea36ee698b3d53752340233";
 const url = "http://localhost:4000";
 
 const handleResponse = R.curry(async (method, path, body = undefined) => {
