@@ -1,0 +1,114 @@
+{
+  "projects": [
+    {
+      "id": "abc123",
+      "name": "tau tao",
+      "rootIds": [
+        {
+          "id": "milestone0",
+          "model": "items"
+        },
+        {
+          "id": "milestone1",
+          "model": "items"
+        },
+        {
+          "id": "milestone2",
+          "model": "items"
+        },
+        {
+          "id": "milestone3",
+          "model": "items"
+        },
+        {
+          "id": "milestone4",
+          "model": "items"
+        },
+        {
+          "id": "milestone5",
+          "model": "items"
+        },
+        {
+          "id": "milestone6",
+          "model": "items"
+        },
+        {
+          "id": "milestone7",
+          "model": "items"
+        },
+        {
+          "id": "milestone8",
+          "model": "items"
+        },
+        {
+          "id": "milestone9",
+          "model": "items"
+        }
+      ],
+      "goal": "My goal is to make a task manager that can persist data.t",
+      "strategy": "This would be cool. and it still is."
+    }
+  ],
+  "items": [
+    {
+      "id": "milestone9",
+      "childrenIds": [],
+      "name": "milestone9",
+      "points": 3
+    },
+    {
+      "id": "milestone8",
+      "childrenIds": [],
+      "name": "milestone8",
+      "points": 3
+    },
+    {
+      "id": "milestone7",
+      "childrenIds": [],
+      "name": "milestone7",
+      "points": 3
+    },
+    {
+      "id": "milestone6",
+      "childrenIds": [],
+      "name": "milestone6",
+      "points": 3
+    },
+    {
+      "id": "milestone5",
+      "childrenIds": [],
+      "name": "milestone5",
+      "points": 3
+    },
+    {
+      "id": "milestone4",
+      "childrenIds": [],
+      "name": "milestone4",
+      "points": 1
+    },
+    {
+      "id": "milestone3",
+      "childrenIds": [],
+      "name": "milestone3",
+      "points": 3
+    },
+    {
+      "id": "milestone2",
+      "childrenIds": [],
+      "name": "milestone2",
+      "points": 8
+    },
+    {
+      "id": "milestone1",
+      "childrenIds": [],
+      "name": "milestone1",
+      "points": 3
+    },
+    {
+      "id": "milestone0",
+      "childrenIds": [],
+      "name": "milestone0",
+      "points": 2
+    }
+  ]
+}

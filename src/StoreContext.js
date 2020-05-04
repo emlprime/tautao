@@ -1,58 +1,48 @@
 import React, { createContext, useReducer, useContext } from "react";
 import * as R from "ramda";
 import dayjs from "dayjs";
+import { formatIds } from "./utils";
+
 const SECRET_KEY = process.env.REACT_APP_JSON_SERVER_SECRET_KEY;
+// const binRoute = "https:api.jsonbin.io/v3/b/5ea36ee698b3d53752340233";
+const url = "http://localhost:4000";
 
-const binRoute = "https:api.jsonbin.io/v3/b/5ea36ee698b3d53752340233";
-
-function putData(data) {
-  fetch(binRoute, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Master-key": SECRET_KEY,
-      "X-Bin-Versioning": false
-    },
-    body: JSON.stringify(data, null, 2)
-  });
-}
-
-export async function getData() {
-  const result = await fetch(`${binRoute}/2`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Master-key": SECRET_KEY
-    }
+const handleResponse = R.curry(async (method, path, body = undefined) => {
+  const result = await fetch(path, {
+    method,
+    body,
+    headers: { "Content-Type": "application/json" }
   });
 
-  const response = await result.json();
-  const { record: data } = response;
+  return await result.json();
+});
 
-  return data;
-}
+const get = handleResponse("GET");
+const put = handleResponse("PUT");
+
+export const getData = path => get(`${url}/${path}`);
+export const putData = (path, body) => put(`${url}/${path}`, JSON.stringify(body, null, 2));
 
 const defaultState = { status: "PENDING" };
 
-function reducer(state = defaultState, action = {}) {
+function reducer(state = {}, action) {
   switch (action.type) {
     case "MERGE_STATE":
       return R.merge(state, { ...action.payload, status: "RESOLVED" });
     case "MERGE_VALUE":
       const { path, value } = action.payload;
 
-      return R.pipe(
+      const newState = R.pipe(
         R.assocPath(path, value),
-        R.assoc("lastMutation", dayjs())
+        R.assoc("lastMutation", dayjs().toISOString())
       )(state);
+
+      return newState;
     case "PERSIST_DATA":
-      putData(
-        R.pipe(
-          R.dissoc("status"),
-          R.dissoc("lastMutation")
-        )(state)
-      );
-      return R.assoc("lastMutation", undefined, state);
+      return R.pipe(
+        R.assoc("status", "PERSIST_DATA"),
+        R.dissoc("lastMutation")
+      )(state);
     default:
       return state;
   }
@@ -62,7 +52,8 @@ const StoreContext = createContext(null);
 
 export function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, defaultState);
-  const value = { state, dispatch };
+  const fakeDispatch = stuff => console.log("stuff:", stuff);
+  const value = { state, dispatch, fakeDispatch };
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 

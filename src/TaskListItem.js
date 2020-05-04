@@ -12,7 +12,7 @@ function TaskListItem({ taskId }) {
   const id = R.prop("id", taskId);
   const { name, points } = R.path(["byId", R.prop("model", taskId), id], state);
 
-  const counts = { todoCount: 7, doingCount: 4, doneCount: 5 };
+  const counts = { todoCount: 1, doingCount: 3, doneCount: 1 };
 
   return (
     <Style id={`item_${id}`}>

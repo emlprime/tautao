@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Project from "./Project";
 import Task from "./Task";
-import dayjs from "dayjs";
-import { useStore, getData } from "./StoreContext";
+import { useStore, getData, putData } from "./StoreContext";
+import { formatIds } from "./utils";
 
 const defaultToObj = R.defaultTo({});
 
@@ -17,38 +17,81 @@ const getCurrentProject = R.pipe(
   defaultToObj
 );
 
-function App() {
-  const [status, setStatus] = useState("pending");
-  const { state, dispatch } = useStore();
+const exists = R.pipe(
+  R.isNil,
+  R.not
+);
+const isNotResolved = R.pipe(
+  R.equals("RESOLVED"),
+  R.not
+);
+const isChanged = R.pipe(
+  R.prop("lastMutation"),
+  exists
+);
+
+const pathProjectRootIds = R.pathOr([], ["byId", "projects", "abc123", "rootIds"]);
+
+const loowiToObj = R.reduce((acc, item) => R.assoc(item.id, item, acc), {});
+
+const App = () => {
+  const { state, dispatch, fakeDispatch } = useStore();
 
   const loadData = useCallback(async () => {
-    if (status !== "resolved") {
-      const data = await getData();
-      dispatch({ type: "MERGE_STATE", payload: data });
-      setStatus("resolved");
-    }
-  }, [dispatch, status]);
+    if (isNotResolved(state)) {
+      const projectData = await getData("projects/abc123");
+      const itemsData = await getData("items");
 
-  const editDebounceInSec = 10;
+      dispatch({
+        type: "MERGE_STATE",
+        payload: {
+          currentProjectId: "abc123",
+          byId: { projects: { abc123: projectData }, items: loowiToObj(itemsData) }
+        }
+      });
+    }
+  }, [dispatch, state.status]);
+
+  const persistData = useCallback(data => {
+    console.log("path:", formatIds(R.path(["byId", "projects", "abc123", "rootIds"], data)));
+    console.log("data:", data);
+    putData("projects/abc123", R.path(["byId", "projects", "abc123"], data));
+  }, []);
+
+  const editDebounceInSec = 2;
+
+  const shouldSetPersistDataTimeout = R.allPass([isChanged, isNotResolved])(state);
+  const shouldPersistData = R.equals("PERSIST_DATA", state.status);
+  const shouldLoadData = R.pipe(
+    R.prop("byId"),
+    R.isNil
+  )(state);
+
+  const rootIds = R.pipe(
+    pathProjectRootIds,
+    formatIds
+  )(state);
+
   useEffect(() => {
-    if (R.not(R.isNil(state.lastMutation))) {
+    if (shouldPersistData) {
+      persistData(state);
+    }
+  }, [shouldPersistData]);
+
+  useEffect(() => {
+    if (shouldSetPersistDataTimeout) {
       const timer = setTimeout(() => {
         dispatch({ type: "PERSIST_DATA" });
       }, editDebounceInSec * 1000);
       return () => clearTimeout(timer);
     }
-  }, [state.lastMutation]);
+  }, [shouldSetPersistDataTimeout, editDebounceInSec, dispatch]);
 
   useEffect(() => {
-    R.ifElse(
-      R.pipe(
-        R.prop("byId"),
-        R.isNil
-      ),
-      loadData,
-      R.always("some data")
-    )(state);
-  }, [state, loadData]);
+    if (shouldLoadData) {
+      loadData();
+    }
+  }, [loadData]);
 
   const { name: projectName } = getCurrentProject(state);
 
@@ -73,6 +116,6 @@ function App() {
       </main>
     </Router>
   );
-}
+};
 
 export default App;

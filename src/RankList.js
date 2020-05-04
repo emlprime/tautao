@@ -5,16 +5,13 @@ import TaskListItem from "./TaskListItem";
 import Draggable from "./Draggable";
 
 const mapIndexed = R.addIndex(R.map);
+const rankChanged = ([index, prevIndex]) => R.not(R.equals(index, prevIndex));
 
 const inRange = (num, min, max) => num >= min && num < max;
 
 const range = R.range(0);
 
 const HEIGHT = 40;
-
-const rankChanged = ([index, prevIndex]) => R.not(R.equals(index, prevIndex));
-
-const changeRank = R.curry((dispatch, newItems) => R.pipe(R.filter(rankChanged)));
 
 const RankList = ({ items, handleNewOrder, dispatch }) => {
   const countOfItems = items.length;
@@ -57,9 +54,11 @@ const RankList = ({ items, handleNewOrder, dispatch }) => {
   useEffect(() => {
     R.pipe(
       mapIndexed((itemsIndex, i) => [i, itemsIndex, items[itemsIndex]]),
-      changeRank(dispatch)
+      R.any(rankChanged),
+
+      R.ifElse(R.equals(true), () => handleNewOrder(state.order), R.always())
     )(state.order);
-  }, [state.order, items, dispatch]);
+  }, [state.order, handleNewOrder]);
 
   return (
     <Container>

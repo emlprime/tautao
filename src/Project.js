@@ -11,16 +11,13 @@ function Project() {
   const { state, dispatch } = useStore();
 
   const projectId = R.prop("currentProjectId", state);
-  const { name, goal, strategy, velocity, rootIds } = R.pathOr(
-    [],
-    ["byId", "projects", projectId],
-    state
-  );
+  const basePath = ["byId", "projects", projectId];
+  const { name, goal, strategy, velocity, rootIds } = R.pathOr([], basePath, state);
 
   const handleChange = e =>
     dispatch({
       type: "MERGE_VALUE",
-      payload: { path: ["byId", "projects", projectId, e.target.name], value: e.target.value }
+      payload: { path: [...basePath, e.target.name], value: e.target.value }
     });
   return (
     <Style>
@@ -42,7 +39,7 @@ function Project() {
           />
         </ul>
       </fieldset>
-      <TaskList rootIds={rootIds} />
+      <TaskList rootIds={rootIds} path={[...basePath, "rootIds"]} />
     </Style>
   );
 }

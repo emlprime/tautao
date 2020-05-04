@@ -51,9 +51,9 @@ function Progress({ counts }) {
 
   return (
     <Style {...theHeights} title={title}>
-      <div className="done" />
-      <div className="doing" />
       <div className="todo" />
+      <div className="doing" />
+      <div className="done" />
     </Style>
   );
 }
@@ -65,15 +65,15 @@ const Style = styled.section`
   width: 32px;
   flex-direction: column;
   .done {
-    background-color: maroon;
+    background-color: green;
     height: ${({ doneHeight }) => doneHeight}px;
   }
   .doing {
-    background-color: purple;
+    background-color: blue;
     height: ${({ doingHeight }) => doingHeight}px;
   }
   .todo {
-    background-color: blue;
+    background-color: rgb(150, 50, 50);
     height: ${({ todoHeight }) => todoHeight}px;
   }
   font-size: 0.5rem;
