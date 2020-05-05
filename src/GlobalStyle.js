@@ -53,6 +53,8 @@ input, textarea {
     background-color: #333;
     border: none;
     color: #777;
+padding:  .3rem;
+  margin-right: 0.2rem;
 
 }
 

@@ -33,7 +33,7 @@ export default TaskListItem;
 const Style = styled.li`
   width: 100%;
   background-color: ${formatChosen};
-  margin: 0 0.6rem 0.6rem 0;
+  margin: 0 0.2rem 0.2rem 0;
   padding-left: 0.5rem;
   display: grid;
   align-items: center;

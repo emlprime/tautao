@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-function Button({ children, handleClick }) {
+function Button({ children, handleClick, type = "button", ...rest }) {
   return (
-    <Style type="button" onClick={handleClick}>
+    <Style type={type} onClick={handleClick} {...rest}>
       {children}
     </Style>
   );

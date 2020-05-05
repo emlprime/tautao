@@ -13,6 +13,26 @@
           "model": "items"
         },
         {
+          "id": "milestone2",
+          "model": "items"
+        },
+        {
+          "id": "milestone3",
+          "model": "items"
+        },
+        {
+          "id": "milestone4",
+          "model": "items"
+        },
+        {
+          "id": "milestone5",
+          "model": "items"
+        },
+        {
+          "id": "milestone6",
+          "model": "items"
+        },
+        {
           "id": "milestone7",
           "model": "items"
         },
@@ -22,26 +42,6 @@
         },
         {
           "id": "milestone9",
-          "model": "items"
-        },
-        {
-          "id": "milestone5",
-          "model": "items"
-        },
-        {
-          "id": "milestone3",
-          "model": "items"
-        },
-        {
-          "id": "milestone2",
-          "model": "items"
-        },
-        {
-          "id": "milestone4",
-          "model": "items"
-        },
-        {
-          "id": "milestone6",
           "model": "items"
         }
       ],

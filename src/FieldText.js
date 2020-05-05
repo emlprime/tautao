@@ -9,5 +9,4 @@ export default FieldText;
 
 const Input = styled.input`
   height: 1.2rem;
-  margin-right: 0.2rem;
 `;
