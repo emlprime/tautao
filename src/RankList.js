@@ -2,6 +2,7 @@ import React, { useCallback, useReducer } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import TaskListItem from "./TaskListItem";
+import Button from "./Button";
 
 const mapIndexed = R.addIndex(R.map);
 const rankChanged = ([index, prevIndex]) => R.not(R.equals(index, prevIndex));
@@ -20,11 +21,10 @@ const withSubsetRejected = R.curry((superset, selection) =>
   rejectIndexed((i, index) => R.includes(index, selection))(superset)
 );
 
-const spliceReflowedSelection = R.curry((superset, selection) =>
-  R.converge(R.insertAll(R.head(selection)), [
-    reflowedSubset(superset),
-    withSubsetRejected(superset)
-  ])(selection)
+const spliceReflowedSelection = R.curry((insertionIndex, superset, selection) =>
+  R.converge(R.insertAll(insertionIndex), [reflowedSubset(superset), withSubsetRejected(superset)])(
+    selection
+  )
 );
 
 const indexOfOrNil = R.curry((list, value) => {
@@ -34,9 +34,16 @@ const indexOfOrNil = R.curry((list, value) => {
 });
 
 const reducer = (state, action) => {
-  const { index } = action;
-  const result = R.ifElse(R.includes(index), R.reject(index), R.append(index))(state);
-  return result;
+  switch (action.type) {
+    case "UPDATE":
+      const { index } = action.payload;
+      const result = R.ifElse(R.includes(index), R.reject(index), R.append(index))(state);
+      return result;
+    case "CLEAR":
+      return [];
+    default:
+      return state;
+  }
 };
 
 const RankList = ({ items, handleNewOrder }) => {
@@ -44,22 +51,37 @@ const RankList = ({ items, handleNewOrder }) => {
 
   const countOfItems = items.length;
   const indexOfSelectedOrNil = indexOfOrNil(selected);
+
   const handleReflowItems = useCallback(() => {
-    handleNewOrder(spliceReflowedSelection(items, selected));
+    handleNewOrder(spliceReflowedSelection(R.head(selected), items, selected));
+    dispatch({ type: "CLEAR" });
   }, [items, selected]);
 
+  const handleReflowItemsToTop = useCallback(() => {
+    handleNewOrder(spliceReflowedSelection(0, items, selected));
+    dispatch({ type: "CLEAR" });
+  }, [selected]);
+
+  const handleReflowItemsToBottom = useCallback(() => {
+    handleNewOrder(spliceReflowedSelection(R.length(items), items, selected));
+    dispatch({ type: "CLEAR" });
+  }, [selected]);
+
+  const showButtons = selected.length > 0;
   return (
     <Style>
-      <button type="button" onClick={() => handleReflowItems()}>
-        Reorder
-      </button>
+      <header>
+        {showButtons && <Button handleClick={() => handleReflowItems()}>Reorder</Button>}
+        {showButtons && <Button handleClick={() => handleReflowItemsToTop()}>Top</Button>}
+        {showButtons && <Button handleClick={() => handleReflowItemsToBottom()}>Bottom</Button>}
+      </header>
       <ul>
         {mapIndexed((item, index) => {
           return (
             <TaskListItem
               taskId={item}
               selectionIndex={indexOfSelectedOrNil(index)}
-              handleClick={() => dispatch({ index })}
+              handleClick={() => dispatch({ type: "UPDATE", payload: { index } })}
             />
           );
         })(items)}
@@ -71,9 +93,7 @@ const RankList = ({ items, handleNewOrder }) => {
 export default RankList;
 
 const Style = styled.section`
-  button {
-    background-color: #000;
-    border-color: #333;
-    color: #444;
+  header {
+    height: 20px;
   }
 `;

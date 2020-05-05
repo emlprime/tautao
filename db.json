@@ -5,11 +5,7 @@
       "name": "tau tao",
       "rootIds": [
         {
-          "id": "milestone2",
-          "model": "items"
-        },
-        {
-          "id": "milestone6",
+          "id": "milestone0",
           "model": "items"
         },
         {
@@ -17,15 +13,7 @@
           "model": "items"
         },
         {
-          "id": "milestone7",
-          "model": "items"
-        },
-        {
-          "id": "milestone5",
-          "model": "items"
-        },
-        {
-          "id": "milestone4",
+          "id": "milestone2",
           "model": "items"
         },
         {
@@ -33,7 +21,19 @@
           "model": "items"
         },
         {
-          "id": "milestone0",
+          "id": "milestone4",
+          "model": "items"
+        },
+        {
+          "id": "milestone5",
+          "model": "items"
+        },
+        {
+          "id": "milestone6",
+          "model": "items"
+        },
+        {
+          "id": "milestone7",
           "model": "items"
         },
         {

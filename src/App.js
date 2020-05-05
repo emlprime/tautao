@@ -12,7 +12,7 @@ const defaultToObj = R.defaultTo({});
 const getCurrentProject = R.pipe(
   R.converge(R.path, [
     R.converge(R.append, [R.prop("currentProjectId"), R.always(["byId", "projects"])]),
-    R.identity
+    R.identity,
   ]),
   defaultToObj
 );
@@ -45,15 +45,15 @@ const App = () => {
         type: "MERGE_STATE",
         payload: {
           currentProjectId: "abc123",
-          byId: { projects: { abc123: projectData }, items: loowiToObj(itemsData) }
-        }
+          byId: { projects: { abc123: projectData }, items: loowiToObj(itemsData) },
+        },
       });
     }
   }, [dispatch, isPending]);
 
   const persistData = useCallback(data => {
-    console.log("path:", formatIds(R.path(["byId", "projects", "abc123", "rootIds"], data)));
-    console.log("data:", data);
+    // console.log("path:", formatIds(R.path(["byId", "projects", "abc123", "rootIds"], data)));
+    // console.log("data:", data);
     putData("projects/abc123", R.path(["byId", "projects", "abc123"], data));
   }, []);
 
