@@ -45,8 +45,9 @@
           "model": "items"
         }
       ],
-      "goal": "My goal is to make a task manager that can persist data.t",
-      "strategy": "This would be cool. and it still is."
+      "goal": "My goal is to make a task manager that can persist data.",
+      "strategy": "This would be cool. and it still is.",
+      "velocity": "3"
     }
   ],
   "items": [

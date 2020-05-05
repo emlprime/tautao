@@ -1,27 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-function FieldNumber({ label, name, value, max, min = 1, handleChange }) {
-  return (
-    <Style>
-      <label>{label}:</label>
-      <input
-        type="number"
-        id={name}
-        name={name}
-        value={value}
-        min={min}
-        max={max}
-        onChange={handleChange}
-      />
-    </Style>
-  );
+function FieldNumber({ name, handleChange, ...rest }) {
+  return <Input type="number" id={name} name={name} onChange={handleChange} {...rest} />;
 }
 
 export default FieldNumber;
 
-const Style = styled.li`
-  input {
-    text-align: right;
-  }
+const Input = styled.input`
+  text-align: right;
+  height: 1.2rem;
 `;

@@ -2,10 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { useStore } from "./StoreContext";
-import FieldText from "./FieldText";
-import FieldNumber from "./FieldNumber";
-import FieldTextMultiline from "./FieldTextMultiline";
 import TaskList from "./TaskList";
+import ListItemField from "./ListItemField";
 
 function Project() {
   const { state, dispatch } = useStore();
@@ -17,21 +15,35 @@ function Project() {
   const handleChange = e =>
     dispatch({
       type: "MERGE_VALUE",
-      payload: { path: [...basePath, e.target.name], value: e.target.value }
+      payload: { path: [...basePath, e.target.name], value: e.target.value },
     });
   return (
     <Style>
       <fieldset>
         <ul>
-          <FieldText label="Name" name="name" value={name} handleChange={handleChange} />
-          <FieldTextMultiline label="Goal" name="goal" value={goal} handleChange={handleChange} />
-          <FieldTextMultiline
+          <ListItemField
+            type="text"
+            label="Name"
+            name="name"
+            value={name}
+            handleChange={handleChange}
+          />
+          <ListItemField
+            type="multiline"
+            label="Goal"
+            name="goal"
+            value={goal}
+            handleChange={handleChange}
+          />
+          <ListItemField
+            type="multiline"
             label="Strategy"
             name="strategy"
             value={strategy}
             handleChange={handleChange}
           />
-          <FieldNumber
+          <ListItemField
+            type="number"
             label="Sprint Velocity"
             name="velocity"
             value={velocity}

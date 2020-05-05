@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-function FieldText({ label, name, value, handleChange }) {
-  return (
-    <Style>
-      <label>{label}:</label>
-      <input type="text" id={name} name={name} value={value} onChange={handleChange} />
-    </Style>
-  );
+function FieldText({ name, handleChange, ...rest }) {
+  return <Input type="text" id={name} name={name} onChange={handleChange} {...rest} />;
 }
 
 export default FieldText;
 
-const Style = styled.li``;
+const Input = styled.input`
+  height: 1.2rem;
+  margin-right: 0.2rem;
+`;

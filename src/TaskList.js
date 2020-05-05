@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Progress from "./Progress";
 import Points from "./Points";
 import { useStore } from "./StoreContext";
+import NewTaskForm from "./NewTaskForm";
 
 const getPoints = R.curry((state, model, id) => R.path(["byId", model, id, "points"], state));
 
@@ -36,6 +37,7 @@ const TaskList = ({ rootIds, path }) => {
         </Totals>
       </header>
       <StyledRankList items={rootIds} handleNewOrder={handleNewOrder} />
+      <NewTaskForm />
     </Style>
   );
 };
