@@ -37,7 +37,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "UPDATE":
       const { index } = action.payload;
-      const result = R.ifElse(R.includes(index), R.reject(index), R.append(index))(state);
+
+      const result = R.ifElse(R.includes(index), R.reject(R.equals(index)), R.append(index))(state);
       return result;
     case "CLEAR":
       return [];
