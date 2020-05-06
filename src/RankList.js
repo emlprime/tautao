@@ -47,7 +47,7 @@ const reducer = (state, action) => {
   }
 };
 
-const RankList = ({ items, handleNewOrder }) => {
+const RankList = ({ items, handleNewOrder, handleDeletePath }) => {
   const [selected, dispatch] = useReducer(reducer, []);
 
   const countOfItems = items.length;
@@ -83,6 +83,7 @@ const RankList = ({ items, handleNewOrder }) => {
               taskId={item}
               selectionIndex={indexOfSelectedOrNil(index)}
               handleClick={() => dispatch({ type: "UPDATE", payload: { index } })}
+              handleDeletePath={handleDeletePath}
             />
           );
         })(items)}

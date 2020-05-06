@@ -6,10 +6,11 @@ import { useStore } from "./StoreContext";
 import Handle from "./Handle";
 import Points from "./Points";
 import Progress from "./Progress";
+import Button from "./Button";
 
 const formatChosen = ({ selectionIndex }) => (R.not(R.isEmpty(selectionIndex)) ? "#aaa" : "#111");
 
-function TaskListItem({ taskId, selectionIndex, handleClick }) {
+function TaskListItem({ taskId, selectionIndex, handleClick, handleDeletePath }) {
   const { state } = useStore();
   const id = R.prop("id", taskId);
   const { name, points } = R.path(["byId", R.prop("model", taskId), id], state);
@@ -20,10 +21,11 @@ function TaskListItem({ taskId, selectionIndex, handleClick }) {
     <Style id={`item_${id}`} selectionIndex={selectionIndex}>
       <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
       <Link to={`/task/${id}`}>{name}</Link>
-      <Totals>
-        <Points points={points} />
-        <Progress counts={counts} />
-      </Totals>
+
+      <Points points={points} />
+      <Progress counts={counts} />
+
+      <Button handleClick={() => handleDeletePath(taskId)}>X</Button>
     </Style>
   );
 }
@@ -37,12 +39,15 @@ const Style = styled.li`
   padding-left: 0.5rem;
   display: grid;
   align-items: center;
-  grid-template: "handle link points progress"/32px 1fr 32px 32px;
-`;
+  grid-template-columns: 32px 1fr 32px 32px 32px;
+  grid-gap: 4px;
 
-const Totals = styled.div`
-  display: flex;
-  width: 70px;
-  justify-content: space-between;
-  margin-right: 6px;
+  button {
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;

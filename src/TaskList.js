@@ -27,6 +27,16 @@ const TaskList = ({ rootIds, path }) => {
     [dispatch, path, rootIds]
   );
 
+  const handleDeletePath = useCallback(
+    id => {
+      console.log("id:", id, path);
+
+      dispatch({ type: "DELETE_LIST_ITEM", payload: { path: path, id } });
+      dispatch({ type: "DELETE_BY_ID", payload: id });
+    },
+    [dispatch, path]
+  );
+
   return (
     <Style>
       <header>
@@ -36,7 +46,11 @@ const TaskList = ({ rootIds, path }) => {
           <Progress counts={{ todoCount: 5, doneCount: 3, doingCount: 5 }} />
         </Totals>
       </header>
-      <StyledRankList items={rootIds} handleNewOrder={handleNewOrder} />
+      <StyledRankList
+        items={rootIds}
+        handleNewOrder={handleNewOrder}
+        handleDeletePath={handleDeletePath}
+      />
       <NewTaskForm />
     </Style>
   );
@@ -56,6 +70,7 @@ const Style = styled.section`
     padding: 0.1rem;
     height: 330px;
     overflow-y: scroll;
+    scrollbar-color: white;
     outline: 1px solid rgba(70, 70, 70, 0.3);
   }
 `;

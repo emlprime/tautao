@@ -9,14 +9,6 @@
           "model": "items"
         },
         {
-          "id": "milestone1",
-          "model": "items"
-        },
-        {
-          "id": "milestone2",
-          "model": "items"
-        },
-        {
           "id": "milestone3",
           "model": "items"
         },
