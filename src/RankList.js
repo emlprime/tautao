@@ -47,24 +47,24 @@ const reducer = (state, action) => {
   }
 };
 
-const RankList = ({ items, handleNewOrder, handleDeletePath }) => {
+const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
   const [selected, dispatch] = useReducer(reducer, []);
 
   const countOfItems = items.length;
   const indexOfSelectedOrNil = indexOfOrNil(selected);
 
   const handleReflowItems = useCallback(() => {
-    handleNewOrder(spliceReflowedSelection(R.head(selected), items, selected));
+    handleNewOrderSubmit(spliceReflowedSelection(R.head(selected), items, selected));
     dispatch({ type: "CLEAR" });
   }, [items, selected]);
 
   const handleReflowItemsToTop = useCallback(() => {
-    handleNewOrder(spliceReflowedSelection(0, items, selected));
+    handleNewOrderSubmit(spliceReflowedSelection(0, items, selected));
     dispatch({ type: "CLEAR" });
   }, [selected]);
 
   const handleReflowItemsToBottom = useCallback(() => {
-    handleNewOrder(spliceReflowedSelection(R.length(items), items, selected));
+    handleNewOrderSubmit(spliceReflowedSelection(R.length(items), items, selected));
     dispatch({ type: "CLEAR" });
   }, [selected]);
 
@@ -83,7 +83,7 @@ const RankList = ({ items, handleNewOrder, handleDeletePath }) => {
               taskId={item}
               selectionIndex={indexOfSelectedOrNil(index)}
               handleClick={() => dispatch({ type: "UPDATE", payload: { index } })}
-              handleDeletePath={handleDeletePath}
+              handleDeleteItemClick={handleDeleteItemClick}
             />
           );
         })(items)}

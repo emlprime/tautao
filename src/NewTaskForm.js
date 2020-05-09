@@ -17,7 +17,7 @@ function reducer(state, action) {
   }
 }
 
-function NewTaskForm({ handleNewTask }) {
+function NewTaskForm({ handleNewTaskSubmit }) {
   const [data, dispatch] = useReducer(reducer, { name: undefined, points: undefined });
 
   const [isDisabled, setIsDisabled] = useState(true);
@@ -30,7 +30,7 @@ function NewTaskForm({ handleNewTask }) {
     e => {
       e.preventDefault();
 
-      handleNewTask(data);
+      handleNewTaskSubmit(data);
       dispatch({ type: "CLEAR" });
     },
     [data]

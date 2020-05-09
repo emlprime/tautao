@@ -51,7 +51,7 @@ function Project() {
           />
         </ul>
       </fieldset>
-      <TaskList rootIds={rootIds} path={[...basePath, "rootIds"]} />
+      <TaskList rootIds={rootIds} basePath={basePath} />
     </Style>
   );
 }

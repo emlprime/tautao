@@ -35,13 +35,16 @@ const handleResponse = R.curry(async (method, path, body = undefined) => {
   return await result.json();
 });
 
-const get = handleResponse("GET");
-const put = handleResponse("PUT");
-const post = handleResponse("POST");
+const serviceGet = handleResponse("GET");
+const servicePut = handleResponse("PUT");
+const servicePost = handleResponse("POST");
+const serviceDelete = handleResponse("DELETE");
 
-export const getData = path => get(`${url}/${path}`);
-export const putData = (path, body) => put(`${url}/${path}`, JSON.stringify(body, null, 2));
-export const postData = (path, body) => post(`${url}/${path}`, JSON.stringify(body, null, 2));
+export const getData = path => serviceGet(`${url}/${path}`);
+export const deleteData = path => serviceDelete(`${url}/${path}`);
+export const putData = (path, body) => servicePut(`${url}/${path}`, JSON.stringify(body, null, 2));
+export const postData = (path, body) =>
+  servicePost(`${url}/${path}`, JSON.stringify(body, null, 2));
 
 const defaultState = { status: "PENDING" };
 
@@ -76,29 +79,41 @@ export async function handleNewItem(setPath, data, item) {
 
   const listLens = lensPath(setPath);
   const newItemPath = ["byId", "items", newItemId];
-  const result = pipe(
+  return pipe(
     over(listLens, append(newItem)),
     assocPath(newItemPath, newItemData)
   )(data);
-  console.log("result:", result);
-  return result;
+}
+
+export async function handleNewOrder(setPath, data, reoderedIds) {
+  const listLens = lensPath(setPath);
+  return set(listLens, reoderedIds, data);
+}
+
+export async function handleDeleteItem(rootIdsPath, data, id) {
+  deleteData(`items/${id}`);
+  const listLens = lensPath(rootIdsPath);
+  const deletedItemPath = ["byId", "items", id];
+  return pipe(
+    over(listLens, reject(propEq("id", id))),
+    dissocPath(deletedItemPath)
+  )(data);
+}
+
+export async function persistProject(projectData) {
+  const id = prop("id", projectData);
+  return await putData(`projects/${id}`, projectData);
 }
 
 function reducer(state = {}, action) {
   switch (action.type) {
     case "MERGE_STATE":
       return R.merge(state, { ...action.payload, status: "RESOLVED" });
-    case "MERGE_STATE_NEW":
-      const { payload: newItemState } = action;
-
-      const result = pipe(markAsDirty)(newItemState);
-      console.log("result:", JSON.stringify(result, null, 2));
-      return result;
     case "MERGE_VALUE":
-      const { path, value } = action.payload;
+      const { targetPath, value } = action.payload;
 
       const newState = R.pipe(
-        R.assocPath(path, value),
+        R.assocPath(targetPath, value),
         markAsDirty
       )(state);
 

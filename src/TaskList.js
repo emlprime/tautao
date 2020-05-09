@@ -4,45 +4,61 @@ import RankList from "./RankList";
 import styled from "styled-components";
 import Progress from "./Progress";
 import Points from "./Points";
-import { useStore, getData, putData, postData, handleNewItem } from "./StoreContext";
+import {
+  useStore,
+  getData,
+  putData,
+  postData,
+  handleNewItem,
+  handleNewOrder,
+  handleDeleteItem,
+  persistProject,
+} from "./StoreContext";
 import NewTaskForm from "./NewTaskForm";
+const { append, converge, curry, map, path, pipe, prop, sum } = R;
 
-const getPoints = R.curry((state, model, id) => R.path(["byId", model, id, "points"], state));
+const getPoints = curry((state, model, id) => path(["byId", model, id, "points"], state));
 
-const TaskList = ({ rootIds, path }) => {
+const TaskList = ({ rootIds, basePath }) => {
+  const rootIdsPath = append("rootIds", basePath);
   const { state, dispatch } = useStore();
   const getPointsForState = getPoints(state);
-  const getPointsByItem = R.converge(getPointsForState, [R.prop("model"), R.prop("id")]);
-  const totalPoints = R.pipe(
-    R.map(getPointsByItem),
-    R.sum
+  const getPointsByItem = converge(getPointsForState, [prop("model"), prop("id")]);
+  const totalPoints = pipe(
+    map(getPointsByItem),
+    sum
   )(rootIds);
 
   const name = "Milestones";
 
-  const handleNewOrder = useCallback(
-    newIds => {
-      dispatch({ type: "MERGE_VALUE", payload: { path, value: newIds } });
+  const handleNewOrderSubmit = useCallback(
+    async reorderedIds => {
+      const newState = await handleNewOrder(rootIdsPath, state, reorderedIds);
+      const project = path(basePath, newState);
+      persistProject(project);
+      dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, path, rootIds]
+    [dispatch, basePath, rootIds]
   );
 
-  const handleDeletePath = useCallback(
-    id => {
-      console.log("id:", id, path);
-
-      dispatch({ type: "DELETE_LIST_ITEM", payload: { path: path, id } });
-      dispatch({ type: "DELETE_BY_ID", payload: id });
+  const handleDeleteItemClick = useCallback(
+    async id => {
+      const newState = await handleDeleteItem(rootIdsPath, state, id);
+      const project = path(basePath, newState);
+      persistProject(project);
+      dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, path]
+    [dispatch, rootIdsPath, state, basePath]
   );
 
-  const handleNewTask = useCallback(
+  const handleNewTaskSubmit = useCallback(
     async item => {
-      const newState = await handleNewItem(path, state, item);
-      dispatch({ type: "MERGE_STATE_NEW", payload: newState });
+      const newState = await handleNewItem(rootIdsPath, state, item);
+      const project = path(basePath, newState);
+      persistProject(project);
+      dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, path, state]
+    [dispatch, basePath, state]
   );
 
   return (
@@ -56,10 +72,10 @@ const TaskList = ({ rootIds, path }) => {
       </header>
       <StyledRankList
         items={rootIds}
-        handleNewOrder={handleNewOrder}
-        handleDeletePath={handleDeletePath}
+        handleNewOrderSubmit={handleNewOrderSubmit}
+        handleDeleteItemClick={handleDeleteItemClick}
       />
-      <NewTaskForm handleNewTask={handleNewTask} />
+      <NewTaskForm handleNewTaskSubmit={handleNewTaskSubmit} />
     </Style>
   );
 };

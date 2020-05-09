@@ -57,5 +57,12 @@ padding:  .3rem;
   margin-right: 0.2rem;
 
 }
+a {
+color: lightblue;
+text-decoration: none;
+  :hover {
+    text-decoration: underline;
+  }
+}
 
 `;

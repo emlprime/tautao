@@ -10,7 +10,7 @@ import Button from "./Button";
 
 const formatChosen = ({ selectionIndex }) => (R.not(R.isEmpty(selectionIndex)) ? "#aaa" : "#111");
 
-function TaskListItem({ taskId, selectionIndex, handleClick, handleDeletePath }) {
+function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemClick }) {
   const { state } = useStore();
   const id = R.prop("id", taskId);
 
@@ -28,7 +28,7 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeletePath })
       <Points points={points} />
       <Progress counts={counts} />
 
-      <Button handleClick={() => handleDeletePath(taskId)}>X</Button>
+      <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
     </Style>
   );
 }

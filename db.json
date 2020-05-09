@@ -3,7 +3,24 @@
     {
       "id": "abc123",
       "name": "Tau Tao",
-      "rootIds": [],
+      "rootIds": [
+        {
+          "id": "0nTPP37",
+          "model": "items"
+        },
+        {
+          "id": "NVveden",
+          "model": "items"
+        },
+        {
+          "id": "Ku8pDd3",
+          "model": "items"
+        },
+        {
+          "id": "hWHJiCQ",
+          "model": "items"
+        }
+      ],
       "goal": "My goal is to make a task manager that can persist data.",
       "strategy": "This would be cool. and it still is.",
       "velocity": "3"
@@ -11,21 +28,34 @@
   ],
   "items": [
     {
-      "name": "aaa",
-      "id": "qwert"
+      "name": "seed",
+      "id": "usestringids"
     },
     {
-      "name": "asdf",
-      "id": "gNIXkT6"
+      "name": "dddss",
+      "id": "VZO5C1-"
     },
     {
-      "name": "fdsa",
+      "name": "eeee",
+      "id": "egPrL7Q"
+    },
+    {
+      "name": "test",
+      "id": "NVveden"
+    },
+    {
+      "name": "things",
       "points": "",
-      "id": "Qr_k59b"
+      "id": "0nTPP37"
     },
     {
-      "name": "asdf",
-      "id": "SmFMLpI"
+      "name": "more things",
+      "points": "",
+      "id": "Ku8pDd3"
+    },
+    {
+      "name": "stuff",
+      "id": "hWHJiCQ"
     }
   ]
 }
