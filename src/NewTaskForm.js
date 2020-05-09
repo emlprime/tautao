@@ -11,14 +11,14 @@ function reducer(state, action) {
       return R.merge(state, action.payload);
     case "CLEAR":
       console.log("clearing");
-      return { name: "", points: "" };
+      return { name: "", estimatedPoints: "" };
     default:
       return state;
   }
 }
 
 function NewTaskForm({ handleNewTaskSubmit }) {
-  const [data, dispatch] = useReducer(reducer, { name: undefined, points: undefined });
+  const [data, dispatch] = useReducer(reducer, { name: undefined, estimatedPoints: undefined });
 
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -47,10 +47,12 @@ function NewTaskForm({ handleNewTaskSubmit }) {
       />
       <FieldNumber
         id="new_points"
-        name="points"
+        name="estimatedPoints"
         placeholder="Pts"
-        value={data.points}
-        onChange={e => dispatch({ type: "SET_VALUE", payload: { points: e.target.value } })}
+        value={data.estimatedPoints}
+        onChange={e =>
+          dispatch({ type: "SET_VALUE", payload: { estimatedPoints: e.target.value } })
+        }
       />
       <Button type="submit" disabled={isDisabled}>
         Add

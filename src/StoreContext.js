@@ -19,7 +19,6 @@ const {
   reduce,
   reject,
   set,
-  tap,
   view,
 } = R;
 
@@ -81,13 +80,17 @@ export async function handleNewItem(setPath, data, item) {
   const newItemPath = ["byId", "items", newItemId];
   return pipe(
     over(listLens, append(newItem)),
-    assocPath(newItemPath, newItemData)
+    assocPath(newItemPath, newItemData),
+    markAsDirty
   )(data);
 }
 
 export async function handleNewOrder(setPath, data, reoderedIds) {
   const listLens = lensPath(setPath);
-  return set(listLens, reoderedIds, data);
+  return pipe(
+    set(listLens, reoderedIds),
+    markAsDirty
+  )(data);
 }
 
 export async function handleDeleteItem(rootIdsPath, data, id) {
@@ -96,7 +99,8 @@ export async function handleDeleteItem(rootIdsPath, data, id) {
   const deletedItemPath = ["byId", "items", id];
   return pipe(
     over(listLens, reject(propEq("id", id))),
-    dissocPath(deletedItemPath)
+    dissocPath(deletedItemPath),
+    markAsDirty
   )(data);
 }
 
@@ -111,6 +115,9 @@ function reducer(state = {}, action) {
       return R.merge(state, { ...action.payload, status: "RESOLVED" });
     case "MERGE_VALUE":
       const { targetPath, value } = action.payload;
+      if (!targetPath) {
+        console.log("target path to set:", value);
+      }
 
       const newState = R.pipe(
         R.assocPath(targetPath, value),
@@ -130,11 +137,8 @@ function reducer(state = {}, action) {
         markAsDirty
       )({ state, id: action.payload });
 
-    case "PERSIST_DATA":
-      return R.pipe(
-        R.assoc("status", "PERSIST_DATA"),
-        R.dissoc("lastMutation")
-      )(state);
+    case "PERSISTED_DATA":
+      return R.pipe(R.dissoc("lastMutation"))(state);
     default:
       return state;
   }

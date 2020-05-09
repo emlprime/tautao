@@ -16,7 +16,7 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
 
   const item = R.path(["byId", R.prop("model", taskId), id], state);
   const name = R.prop("name", item);
-  const points = R.prop("points", item);
+  const points = R.prop("estimatedPoints", item);
 
   const counts = { todoCount: 1, doingCount: 3, doneCount: 1 };
 

@@ -15,7 +15,7 @@ function Project() {
   const handleChange = e =>
     dispatch({
       type: "MERGE_VALUE",
-      payload: { path: [...basePath, e.target.name], value: e.target.value },
+      payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
     });
   return (
     <Style>
@@ -51,7 +51,7 @@ function Project() {
           />
         </ul>
       </fieldset>
-      <TaskList rootIds={rootIds} basePath={basePath} />
+      <TaskList label="Milestones" rootIds={rootIds} basePath={basePath} />
     </Style>
   );
 }

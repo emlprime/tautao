@@ -22,7 +22,6 @@ const {
   reduce,
   replace,
   sum,
-  tap,
   values,
 } = R;
 

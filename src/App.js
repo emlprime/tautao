@@ -4,39 +4,52 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Project from "./Project";
 import Task from "./Task";
-import { useStore, getData, putData, postData } from "./StoreContext";
+import { useStore, getData, putData, postData, persistProject } from "./StoreContext";
 import { formatIds } from "./utils";
 
-const defaultToObj = R.defaultTo({});
+const {
+  always,
+  append,
+  assoc,
+  converge,
+  defaultTo,
+  equals,
+  identity,
+  isNil,
+  not,
+  path,
+  pipe,
+  prop,
+  reduce,
+} = R;
 
-const getCurrentProject = R.pipe(
-  R.converge(R.path, [
-    R.converge(R.append, [R.prop("currentProjectId"), R.always(["byId", "projects"])]),
-    R.identity,
-  ]),
-  defaultToObj
-);
+const getCurrentProject = converge(path, [
+  converge(append, [prop("currentProjectId"), always(["byId", "projects"])]),
+  identity,
+]);
 
-const exists = R.pipe(
-  R.isNil,
-  R.not
+const exists = pipe(
+  isNil,
+  not
 );
-const isNotResolved = R.pipe(
-  R.equals("RESOLVED"),
-  R.not
+const isNotResolved = pipe(
+  equals("RESOLVED"),
+  not
 );
-const isChanged = R.pipe(
-  R.prop("lastMutation"),
+const getIsChanged = pipe(
+  prop("lastMutation"),
   exists
 );
 
-const isDirty = R.pipe(R.prop("dirtyItemPath"));
+const getIsDirty = pipe(prop("dirtyItemPath"));
 
-const loowiToObj = R.reduce((acc, item) => R.assoc(item.id, item, acc), {});
+const loowiToObj = reduce((acc, item) => assoc(item.id, item, acc), {});
 
 const App = () => {
   const { state, dispatch } = useStore();
-
+  const isChanged = getIsChanged(state);
+  const project = getCurrentProject(state);
+  const projectName = prop("name", project);
   const isPending = isNotResolved(state);
   const loadData = useCallback(async () => {
     if (isPending) {
@@ -53,9 +66,16 @@ const App = () => {
     }
   }, [dispatch, isPending]);
 
-  const shouldLoadData = R.pipe(
-    R.prop("byId"),
-    R.isNil
+  useEffect(() => {
+    if (isChanged) {
+      persistProject(project);
+      dispatch({ type: "PERSISTED_DATA" });
+    }
+  }, [isChanged, project]);
+
+  const shouldLoadData = pipe(
+    prop("byId"),
+    isNil
   )(state);
 
   useEffect(() => {
@@ -64,9 +84,7 @@ const App = () => {
     }
   }, [loadData, shouldLoadData]);
 
-  const { name: projectName } = getCurrentProject(state);
-
-  if (R.isNil(projectName)) {
+  if (isNil(projectName)) {
     return <div>Loading...</div>;
   }
   return (
