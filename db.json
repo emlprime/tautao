@@ -2,45 +2,8 @@
   "projects": [
     {
       "id": "abc123",
-      "name": "tau tao",
-      "rootIds": [
-        {
-          "id": "milestone8",
-          "model": "items"
-        },
-        {
-          "id": "milestone0",
-          "model": "items"
-        },
-        {
-          "id": "milestone3",
-          "model": "items"
-        },
-        {
-          "id": "milestone4",
-          "model": "items"
-        },
-        {
-          "id": "milestone6",
-          "model": "items"
-        },
-        {
-          "id": "milestone7",
-          "model": "items"
-        },
-        {
-          "id": "b35f2bdd-a1e6-4054-b15f-901ba1f1e4f2",
-          "model": "items"
-        },
-        {
-          "id": "d1447881-beed-49a1-9faf-a540a33d56d2",
-          "model": "items"
-        },
-        {
-          "id": "ef44e719-b3a0-40aa-8df5-0fef8545369f",
-          "model": "items"
-        }
-      ],
+      "name": "Tau Tao",
+      "rootIds": [],
       "goal": "My goal is to make a task manager that can persist data.",
       "strategy": "This would be cool. and it still is.",
       "velocity": "3"
@@ -48,83 +11,21 @@
   ],
   "items": [
     {
-      "id": "milestone9",
-      "childrenIds": [],
-      "name": "milestone9",
-      "points": 3
+      "name": "aaa",
+      "id": "qwert"
     },
     {
-      "id": "milestone8",
-      "childrenIds": [],
-      "name": "milestone8",
-      "points": 3
+      "name": "asdf",
+      "id": "gNIXkT6"
     },
     {
-      "id": "milestone7",
-      "childrenIds": [],
-      "name": "milestone7",
-      "points": 3
+      "name": "fdsa",
+      "points": "",
+      "id": "Qr_k59b"
     },
     {
-      "id": "milestone6",
-      "childrenIds": [],
-      "name": "milestone6",
-      "points": 3
-    },
-    {
-      "id": "milestone5",
-      "childrenIds": [],
-      "name": "milestone5",
-      "points": 3
-    },
-    {
-      "id": "milestone4",
-      "childrenIds": [],
-      "name": "milestone4",
-      "points": 1
-    },
-    {
-      "id": "milestone3",
-      "childrenIds": [],
-      "name": "milestone3",
-      "points": 3
-    },
-    {
-      "id": "milestone2",
-      "childrenIds": [],
-      "name": "milestone2",
-      "points": 8
-    },
-    {
-      "id": "milestone1",
-      "childrenIds": [],
-      "name": "milestone1",
-      "points": 3
-    },
-    {
-      "id": "milestone0",
-      "childrenIds": [],
-      "name": "milestone0",
-      "points": 2
-    },
-    {
-      "id": "b35f2bdd-a1e6-4054-b15f-901ba1f1e4f2",
-      "name": "asdf"
-    },
-    {
-      "id": "JkmEr15"
-    },
-    {
-      "id": "hWLutw2"
-    },
-    {
-      "name": "ddfdsfsfdfsdf",
-      "id": "6AtByAy"
-    },
-    {
-      "name": "eeeee",
-      "points": "3",
-      "id": "xI8rrxm"
+      "name": "asdf",
+      "id": "SmFMLpI"
     }
   ]
 }

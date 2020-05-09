@@ -53,45 +53,10 @@ const App = () => {
     }
   }, [dispatch, isPending]);
 
-  const persistData = useCallback(async data => {
-    // console.log("path:", formatIds(R.path(["byId", "projects", "abc123", "rootIds"], data)));
-    console.log("data:", data);
-    await putData("projects/abc123", R.path(["byId", "projects", "abc123"], data));
-    if (isDirty(data)) {
-      const dirtyItemPath = R.prop("dirtyItemPath", data);
-      const itemId = R.pipe(
-        R.reverse,
-        R.head
-      )(dirtyItemPath);
-      const itemWithId = await postData(`items`, R.path(dirtyItemPath, data));
-      await dispatch({ type: "ASSOC_NEW_ITEM_ID", itemWithId });
-    }
-  }, []);
-
-  const editDebounceInSec = 2;
-
-  const shouldSetPersistDataTimeout = R.allPass([isChanged, isNotResolved])(state);
-  const shouldPersistData = R.equals("PERSIST_DATA", state.status);
   const shouldLoadData = R.pipe(
     R.prop("byId"),
     R.isNil
   )(state);
-
-  useEffect(() => {
-    if (shouldPersistData) {
-      console.log("state:", state);
-      persistData(state);
-    }
-  }, [shouldPersistData, persistData, state]);
-
-  useEffect(() => {
-    if (shouldSetPersistDataTimeout) {
-      const timer = setTimeout(() => {
-        dispatch({ type: "PERSIST_DATA" });
-      }, editDebounceInSec * 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [shouldSetPersistDataTimeout, editDebounceInSec, dispatch]);
 
   useEffect(() => {
     if (shouldLoadData) {

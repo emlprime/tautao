@@ -4,7 +4,7 @@ import RankList from "./RankList";
 import styled from "styled-components";
 import Progress from "./Progress";
 import Points from "./Points";
-import { useStore } from "./StoreContext";
+import { useStore, getData, putData, postData, handleNewItem } from "./StoreContext";
 import NewTaskForm from "./NewTaskForm";
 
 const getPoints = R.curry((state, model, id) => R.path(["byId", model, id, "points"], state));
@@ -38,10 +38,11 @@ const TaskList = ({ rootIds, path }) => {
   );
 
   const handleNewTask = useCallback(
-    item => {
-      dispatch({ type: "MERGE_STATE_NEW", payload: { setPath: path, item } });
+    async item => {
+      const newState = await handleNewItem(path, state, item);
+      dispatch({ type: "MERGE_STATE_NEW", payload: newState });
     },
-    [dispatch, path]
+    [dispatch, path, state]
   );
 
   return (

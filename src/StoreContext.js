@@ -12,11 +12,14 @@ const {
   dissocPath,
   lensPath,
   over,
+  path,
   pipe,
+  prop,
   propEq,
   reduce,
   reject,
   set,
+  tap,
   view,
 } = R;
 
@@ -62,20 +65,22 @@ function deleteById({ state, id: { id, model } }) {
 
 const markAsDirty = R.assoc("lastMutation", dayjs().toISOString());
 
-function handleNewItem(setPath, data, item) {
-  const listLens = lensPath(setPath);
-  const newItemId = uuidv4();
-  const newItem = { id: newItemId, model: "items" };
+export async function handleNewItem(setPath, data, item) {
+  // create item in the database
+  const response = await postData("items", item);
 
-  const newItemData = { name: item.name, points: item.points };
+  // get the new id
+  const newItemId = prop("id", response);
+  const newItem = { id: newItemId, model: "items" };
+  const newItemData = { ...item, id: newItemId };
+
+  const listLens = lensPath(setPath);
   const newItemPath = ["byId", "items", newItemId];
   const result = pipe(
     over(listLens, append(newItem)),
-    assocPath(newItemPath, newItemData),
-    assoc("dirtyItemPath", newItemPath)
+    assocPath(newItemPath, newItemData)
   )(data);
   console.log("result:", result);
-
   return result;
 }
 
@@ -84,14 +89,11 @@ function reducer(state = {}, action) {
     case "MERGE_STATE":
       return R.merge(state, { ...action.payload, status: "RESOLVED" });
     case "MERGE_STATE_NEW":
-      const {
-        payload: { setPath, item },
-      } = action;
+      const { payload: newItemState } = action;
 
-      return pipe(
-        data => handleNewItem(setPath, data, item),
-        markAsDirty
-      )(state);
+      const result = pipe(markAsDirty)(newItemState);
+      console.log("result:", JSON.stringify(result, null, 2));
+      return result;
     case "MERGE_VALUE":
       const { path, value } = action.payload;
 
