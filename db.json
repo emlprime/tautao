@@ -5,19 +5,11 @@
       "name": "Tau Tao",
       "rootIds": [
         {
-          "id": "0nTPP37",
+          "id": "Xy6k8xK",
           "model": "items"
         },
         {
-          "id": "NVveden",
-          "model": "items"
-        },
-        {
-          "id": "Ku8pDd3",
-          "model": "items"
-        },
-        {
-          "id": "hWHJiCQ",
+          "id": "YHnJKbd",
           "model": "items"
         }
       ],
@@ -40,22 +32,14 @@
       "id": "egPrL7Q"
     },
     {
-      "name": "test",
-      "id": "NVveden"
+      "name": "More",
+      "points": "4",
+      "id": "Xy6k8xK"
     },
     {
-      "name": "things",
-      "points": "",
-      "id": "0nTPP37"
-    },
-    {
-      "name": "more things",
-      "points": "",
-      "id": "Ku8pDd3"
-    },
-    {
-      "name": "stuff",
-      "id": "hWHJiCQ"
+      "name": "morestuff",
+      "points": "3",
+      "id": "YHnJKbd"
     }
   ]
 }

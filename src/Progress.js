@@ -2,12 +2,36 @@ import React from "react";
 import * as R from "ramda";
 import styled from "styled-components";
 
-const countToHeight = R.replace(/Count/, "Height");
+const {
+  append,
+  assoc,
+  converge,
+  dissoc,
+  divide,
+  filter,
+  identity,
+  is,
+  join,
+  keys,
+  mapObjIndexed,
+  merge,
+  multiply,
+  objOf,
+  pipe,
+  prop,
+  reduce,
+  replace,
+  sum,
+  tap,
+  values,
+} = R;
+
+const countToHeight = replace(/Count/, "Height");
 
 const replaceKey = transform => (acc, cur) =>
-  R.pipe(
-    R.assoc(transform(cur), R.prop(cur, acc)),
-    R.dissoc(cur)
+  pipe(
+    assoc(transform(cur), prop(cur, acc)),
+    dissoc(cur)
   )(acc);
 
 const replaceCountToHeight = replaceKey(countToHeight);
@@ -15,39 +39,40 @@ const replaceCountToHeight = replaceKey(countToHeight);
 function Progress({ counts }) {
   const height = 35;
 
-  const totalValues = R.pipe(
-    R.values,
-    R.sum,
-    R.objOf("total")
+  const totalValues = pipe(
+    values,
+    filter(is(Number)),
+    sum,
+    objOf("total")
   );
 
   const applySpecHeight = (value, key, obj) =>
-    R.converge(
-      R.pipe(
-        R.divide,
-        R.multiply(height),
+    converge(
+      pipe(
+        divide,
+        multiply(height),
         progressHeight => parseInt(progressHeight, 10)
       ),
-      [R.prop(key), R.prop("total")]
+      [prop(key), prop("total")]
     )(obj);
 
-  const percentages = R.pipe(
-    R.converge(R.merge, [totalValues, R.identity]),
-    R.mapObjIndexed(applySpecHeight),
-    R.dissoc("total")
+  const percentages = pipe(
+    converge(merge, [totalValues, identity]),
+    mapObjIndexed(applySpecHeight),
+    dissoc("total")
   )(counts);
 
-  const theHeights = R.reduce(replaceCountToHeight, percentages)(R.keys(percentages));
+  const theHeights = reduce(replaceCountToHeight, percentages)(keys(percentages));
 
   const formatTooltip = (acc, key) => {
-    const string = `${key}: ${R.prop(key, counts)}`;
-    return R.append(string, acc);
+    const string = `${key}: ${prop(key, counts)}`;
+    return append(string, acc);
   };
 
-  const title = R.pipe(
-    R.reduce(formatTooltip, []),
-    R.join("\n")
-  )(R.keys(counts));
+  const title = pipe(
+    reduce(formatTooltip, []),
+    join("\n")
+  )(keys(counts));
 
   return (
     <Style {...theHeights} title={title}>

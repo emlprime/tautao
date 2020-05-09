@@ -15,7 +15,7 @@ import {
   persistProject,
 } from "./StoreContext";
 import NewTaskForm from "./NewTaskForm";
-const { append, converge, curry, map, path, pipe, prop, sum } = R;
+const { append, converge, curry, filter, is, lt, map, path, pipe, prop, sum, tap } = R;
 
 const getPoints = curry((state, model, id) => path(["byId", model, id, "points"], state));
 
@@ -26,6 +26,9 @@ const TaskList = ({ rootIds, basePath }) => {
   const getPointsByItem = converge(getPointsForState, [prop("model"), prop("id")]);
   const totalPoints = pipe(
     map(getPointsByItem),
+    map(val => parseInt(val, 10)),
+    filter(lt(0)),
+    tap(console.log),
     sum
   )(rootIds);
 
