@@ -17,22 +17,23 @@ function reducer(state, action) {
   }
 }
 
-function NewTaskForm() {
-  const [state, dispatch] = useReducer(reducer, { name: undefined, points: undefined });
+function NewTaskForm({ handleNewTask }) {
+  const [data, dispatch] = useReducer(reducer, { name: undefined, points: undefined });
 
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
-    setIsDisabled(R.anyPass([R.isNil, R.isEmpty])(state.name));
-  }, [state.name, isDisabled, setIsDisabled]);
+    setIsDisabled(R.anyPass([R.isNil, R.isEmpty])(data.name));
+  }, [data.name, isDisabled, setIsDisabled]);
 
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
-      console.log("state:", state);
+
+      handleNewTask(data);
       dispatch({ type: "CLEAR" });
     },
-    [state]
+    [data]
   );
 
   return (
@@ -41,14 +42,14 @@ function NewTaskForm() {
         id="new_name"
         name="name"
         placeholder="Describe your task here..."
-        value={state.name}
+        value={data.name}
         onChange={e => dispatch({ type: "SET_VALUE", payload: { name: e.target.value } })}
       />
       <FieldNumber
         id="new_points"
         name="points"
         placeholder="Pts"
-        value={state.points}
+        value={data.points}
         onChange={e => dispatch({ type: "SET_VALUE", payload: { points: e.target.value } })}
       />
       <Button type="submit" disabled={isDisabled}>

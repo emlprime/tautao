@@ -37,6 +37,13 @@ const TaskList = ({ rootIds, path }) => {
     [dispatch, path]
   );
 
+  const handleNewTask = useCallback(
+    item => {
+      dispatch({ type: "MERGE_STATE_NEW", payload: { setPath: path, item } });
+    },
+    [dispatch, path]
+  );
+
   return (
     <Style>
       <header>
@@ -51,7 +58,7 @@ const TaskList = ({ rootIds, path }) => {
         handleNewOrder={handleNewOrder}
         handleDeletePath={handleDeletePath}
       />
-      <NewTaskForm />
+      <NewTaskForm handleNewTask={handleNewTask} />
     </Style>
   );
 };

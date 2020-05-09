@@ -13,7 +13,10 @@ const formatChosen = ({ selectionIndex }) => (R.not(R.isEmpty(selectionIndex)) ?
 function TaskListItem({ taskId, selectionIndex, handleClick, handleDeletePath }) {
   const { state } = useStore();
   const id = R.prop("id", taskId);
-  const { name, points } = R.path(["byId", R.prop("model", taskId), id], state);
+
+  const item = R.path(["byId", R.prop("model", taskId), id], state);
+  const name = R.prop("name", item);
+  const points = R.prop("points", item);
 
   const counts = { todoCount: 1, doingCount: 3, doneCount: 1 };
 

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Project from "./Project";
 import Task from "./Task";
-import { useStore, getData, putData } from "./StoreContext";
+import { useStore, getData, putData, postData } from "./StoreContext";
 import { formatIds } from "./utils";
 
 const defaultToObj = R.defaultTo({});
@@ -30,6 +30,8 @@ const isChanged = R.pipe(
   exists
 );
 
+const isDirty = R.pipe(R.prop("dirtyItemPath"));
+
 const loowiToObj = R.reduce((acc, item) => R.assoc(item.id, item, acc), {});
 
 const App = () => {
@@ -51,10 +53,19 @@ const App = () => {
     }
   }, [dispatch, isPending]);
 
-  const persistData = useCallback(data => {
+  const persistData = useCallback(async data => {
     // console.log("path:", formatIds(R.path(["byId", "projects", "abc123", "rootIds"], data)));
-    // console.log("data:", data);
-    putData("projects/abc123", R.path(["byId", "projects", "abc123"], data));
+    console.log("data:", data);
+    await putData("projects/abc123", R.path(["byId", "projects", "abc123"], data));
+    if (isDirty(data)) {
+      const dirtyItemPath = R.prop("dirtyItemPath", data);
+      const itemId = R.pipe(
+        R.reverse,
+        R.head
+      )(dirtyItemPath);
+      const itemWithId = await postData(`items`, R.path(dirtyItemPath, data));
+      await dispatch({ type: "ASSOC_NEW_ITEM_ID", itemWithId });
+    }
   }, []);
 
   const editDebounceInSec = 2;
@@ -68,6 +79,7 @@ const App = () => {
 
   useEffect(() => {
     if (shouldPersistData) {
+      console.log("state:", state);
       persistData(state);
     }
   }, [shouldPersistData, persistData, state]);
