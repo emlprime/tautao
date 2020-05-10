@@ -75,7 +75,7 @@ const App = () => {
 
       dispatch({ type: "PERSISTED_DATA" });
     }
-  }, [mutatedPaths, isChanged, project]);
+  }, [mutatedPaths, isChanged, project, dispatch, state]);
 
   const shouldLoadData = pipe(
     prop("byId"),

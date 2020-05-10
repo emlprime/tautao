@@ -8,26 +8,24 @@ import ListItemField from "./ListItemField";
 import TaskDetail from "./TaskDetail";
 import ElapsedTime from "./ElapsedTime";
 
-const { isNil, not, pipe } = R;
-
+const { isNil, not, path, pipe } = R;
 
 function Task() {
   const { id } = useParams();
   const { state, dispatch } = useStore();
   const basePath = ["byId", "items", id];
 
-  const { name, tactics, estimatedPoints, actualPoints, childrenIds } = R.pathOr(
-    [],
-    basePath,
-    state
-  );
+  const { name, tactics, estimatedPoints, actualPoints, childrenIds } = path(basePath, state);
 
-  const handleChange = useCallback(e => {
-    dispatch({
-      type: "MERGE_VALUE",
-      payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
-    });
-  }, []);
+  const handleChange = useCallback(
+    e => {
+      dispatch({
+        type: "MERGE_VALUE",
+        payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
+      });
+    },
+    [dispatch, basePath]
+  );
 
   const showActions = pipe(isNil)(childrenIds);
   const showTasklist = not(showActions);

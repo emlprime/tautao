@@ -27,7 +27,7 @@ const TaskList = ({ label, rootIds, basePath }) => {
       const newState = await handleNewOrder(rootIdsPath, state, reorderedIds);
       dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, basePath, rootIds]
+    [dispatch, rootIdsPath, state]
   );
 
   const handleDeleteItemClick = useCallback(
@@ -35,7 +35,7 @@ const TaskList = ({ label, rootIds, basePath }) => {
       const newState = await handleDeleteItem(rootIdsPath, state, id);
       dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, rootIdsPath, state, basePath]
+    [dispatch, rootIdsPath, state]
   );
 
   const handleNewTaskSubmit = useCallback(
@@ -43,7 +43,7 @@ const TaskList = ({ label, rootIds, basePath }) => {
       const newState = await handleNewItem(rootIdsPath, state, item);
       dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, basePath, state]
+    [dispatch, state, rootIdsPath]
   );
 
   return (

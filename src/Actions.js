@@ -31,11 +31,11 @@ function Actions() {
 
   const handleStart = useCallback(() => {
     dispatch({ type: "START", id });
-  }, [id]);
+  }, [id, dispatch]);
 
   const handleDone = useCallback(() => {
     dispatch({ type: "DONE", id });
-  }, [id]);
+  }, [id, dispatch]);
 
   return (
     <Style>

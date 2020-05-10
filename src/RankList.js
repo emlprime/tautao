@@ -62,17 +62,17 @@ const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
   const handleReflowItems = useCallback(() => {
     handleNewOrderSubmit(spliceReflowedSelection(head(selected), items, selected));
     dispatch({ type: "CLEAR" });
-  }, [items, selected]);
+  }, [items, selected, handleNewOrderSubmit]);
 
   const handleReflowItemsToTop = useCallback(() => {
     handleNewOrderSubmit(spliceReflowedSelection(0, items, selected));
     dispatch({ type: "CLEAR" });
-  }, [selected]);
+  }, [selected, handleNewOrderSubmit, items]);
 
   const handleReflowItemsToBottom = useCallback(() => {
     handleNewOrderSubmit(spliceReflowedSelection(length(items), items, selected));
     dispatch({ type: "CLEAR" });
-  }, [selected]);
+  }, [selected, items, handleNewOrderSubmit]);
 
   const showButtons = selected.length > 0;
   return (

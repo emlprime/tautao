@@ -39,7 +39,7 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
           &#128269;
         </span>
       </Link>
-      <FieldText {...{ id: "name", name: "name", value: name, handleChange }} />
+      <FieldText {...{ id: "task_name", name: "name", value: name, handleChange }} />
       <RightContent>
         <Points {...{ value: points, handleChange }} />
         <Progress counts={counts} />

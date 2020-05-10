@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useStore } from "./StoreContext";
 import useInterval from "./useInterval";
-const { has, last, lensIndex, modulo, not, pipe, prop, propOr, view } = R;
+const { has, last, lensIndex, modulo, not, pipe, prop, pathOr, view } = R;
 
 function ElapsedTime() {
   const { id } = useParams();
@@ -17,7 +17,7 @@ function ElapsedTime() {
   const basePath = ["byId", "items", id];
   const workLogPath = [...basePath, "workLog"];
 
-  const workLog = R.pathOr([], workLogPath, state);
+  const workLog = pathOr([], workLogPath, state);
   const now = dayjs();
 
   const lastLogItemLens = lensIndex(-1);
