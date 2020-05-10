@@ -53,7 +53,7 @@ const App = () => {
   const project = getCurrentProject(state);
   const projectName = prop("name", project);
   const isPending = isNotResolved(state);
-
+  const mutatedPaths = propOr([], "mutatedPaths", state);
   const loadData = useCallback(async () => {
     if (isPending) {
       const projectData = await getData("projects/abc123");
@@ -71,17 +71,15 @@ const App = () => {
 
   useEffect(() => {
     if (isChanged) {
-      const mutatedPaths = propOr([], "mutatedPaths", state);
-      console.log("mutatedPaths:", mutatedPaths);
       map(({ model, id }) => {
         const data = path(["byId", model, id], state);
-        console.log("data:", data);
+
         persist(model, id, data);
       }, mutatedPaths);
 
       dispatch({ type: "PERSISTED_DATA" });
     }
-  }, [isChanged, project]);
+  }, [mutatedPaths, isChanged, project]);
 
   const shouldLoadData = pipe(
     prop("byId"),

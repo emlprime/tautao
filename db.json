@@ -3,7 +3,16 @@
     {
       "id": "abc123",
       "name": "Tau Tao",
-      "rootIds": [],
+      "rootIds": [
+        {
+          "id": "Rf1LQQp",
+          "model": "items"
+        },
+        {
+          "id": "5UlHBcV",
+          "model": "items"
+        }
+      ],
       "goal": "My goal is to make a task manager that can persist data.",
       "strategy": "This would be cool. and it still is. More changes.\n",
       "velocity": "3"
@@ -13,6 +22,16 @@
     {
       "name": "seed",
       "id": "usestringids"
+    },
+    {
+      "name": "test",
+      "id": "Rf1LQQp",
+      "estimatedPoints": "2"
+    },
+    {
+      "name": "stuff",
+      "id": "5UlHBcV",
+      "estimatedPoints": "5"
     }
   ]
 }

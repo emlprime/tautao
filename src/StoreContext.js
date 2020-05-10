@@ -108,7 +108,6 @@ export async function handleNewItem(setPath, data, item) {
   // create item in the database
   const response = await postData("items", item);
   const projectId = path([2], setPath);
-  console.log("projectId:", projectId);
 
   // get the new id
   const newItemId = prop("id", response);

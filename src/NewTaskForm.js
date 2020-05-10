@@ -10,7 +10,6 @@ function reducer(state, action) {
     case "SET_VALUE":
       return R.merge(state, action.payload);
     case "CLEAR":
-      console.log("clearing");
       return { name: "", estimatedPoints: "" };
     default:
       return state;

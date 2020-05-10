@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { Link } from "react-router-dom";
@@ -21,11 +21,15 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
 
   const counts = { todoCount: 1, doingCount: 3, doneCount: 1 };
 
-  const handleChange = e =>
-    dispatch({
-      type: "MERGE_VALUE",
-      payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
-    });
+  const handleChange = useCallback(
+    e => {
+      dispatch({
+        type: "MERGE_VALUE",
+        payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
+      });
+    },
+    [dispatch]
+  );
 
   return (
     <Style id={`item_${id}`} selectionIndex={selectionIndex}>
@@ -44,7 +48,6 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
 export default TaskListItem;
 
 const Style = styled.li`
-  width: 100%;
   background-color: ${formatChosen};
   margin: 0 0.2rem 0.2rem 0;
   padding-left: 0.5rem;
@@ -52,15 +55,6 @@ const Style = styled.li`
   align-items: center;
   grid-template-columns: 32px 32px 1fr 128px;
   grid-gap: 4px;
-
-  button {
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   input {
     background-color: #111;
@@ -77,4 +71,14 @@ const Style = styled.li`
 const RightContent = styled.section`
   display: grid;
   grid-template-columns: 64px 32px 32px;
+  grid-gap: 4px;
+  button {
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  align-items: center;
 `;
