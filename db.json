@@ -26,10 +26,22 @@
     {
       "name": "test",
       "id": "Rf1LQQp",
-      "estimatedPoints": "2"
+      "estimatedPoints": "2",
+      "workLog": [
+        {
+          "startedAtMS": 1589141976367,
+          "endedAtMS": 1589141993177
+        },
+        {
+          "startedAtMS": 1589141998309
+        },
+        {
+          "startedAtMS": 1589142006789
+        }
+      ]
     },
     {
-      "name": "stuff",
+      "name": "st",
       "id": "5UlHBcV",
       "estimatedPoints": "5"
     }

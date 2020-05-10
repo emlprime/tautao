@@ -32,7 +32,7 @@ function NewTaskForm({ handleNewTaskSubmit }) {
       handleNewTaskSubmit(data);
       dispatch({ type: "CLEAR" });
     },
-    [data]
+    [data, handleNewTaskSubmit]
   );
 
   return (

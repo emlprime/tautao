@@ -17,7 +17,7 @@ function Actions() {
   const basePath = ["byId", "items", id];
   const workLogPath = [...basePath, "workLog"];
 
-  const workLog = R.path(workLogPath, state);
+  const workLog = R.pathOr([], workLogPath, state);
 
   useEffect(() => {
     const hasWorkLog = isNil(workLog);

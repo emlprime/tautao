@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import sprintf from "sprintf";
 import styled from "styled-components";
 import * as R from "ramda";
@@ -6,18 +6,18 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useStore } from "./StoreContext";
 import useInterval from "./useInterval";
-const { add, has, last, lensIndex, modulo, not, pipe, prop, subtract, tap, view } = R;
+const { has, last, lensIndex, modulo, not, pipe, prop, propOr, view } = R;
 
 function ElapsedTime() {
   const { id } = useParams();
   const [timeElapsed, setTimeElapsed] = useState();
 
-  const { state, dispatch } = useStore();
+  const { state } = useStore();
 
   const basePath = ["byId", "items", id];
   const workLogPath = [...basePath, "workLog"];
 
-  const workLog = R.path(workLogPath, state);
+  const workLog = R.pathOr([], workLogPath, state);
   const now = dayjs();
 
   const lastLogItemLens = lensIndex(-1);

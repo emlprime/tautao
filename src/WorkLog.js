@@ -10,11 +10,10 @@ const mapIndexed = addIndex(map);
 
 function WorkLog() {
   const { id } = useParams();
-  const { state, dispatch } = useStore();
-  const basePath = ["byId", "items", id];
+  const { state } = useStore();
+  const basePath = ["byId", "items", id, "workLog"];
 
-  const { workLog } = pathOr({}, basePath, state);
-  console.log("workLog:", workLog);
+  const workLog = pathOr([], basePath, state);
 
   return (
     <Style>

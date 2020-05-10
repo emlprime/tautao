@@ -28,13 +28,17 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
         payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
       });
     },
-    [dispatch]
+    [dispatch, basePath]
   );
 
   return (
     <Style id={`item_${id}`} selectionIndex={selectionIndex}>
       <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
-      <Link to={`/task/${id}`}>&#128269;</Link>
+      <Link to={`/task/${id}`}>
+        <span role="img" aria-label="View Detail">
+          &#128269;
+        </span>
+      </Link>
       <FieldText {...{ id: "name", name: "name", value: name, handleChange }} />
       <RightContent>
         <Points {...{ value: points, handleChange }} />

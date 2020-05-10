@@ -1,7 +1,6 @@
 import React, { createContext, useReducer, useContext } from "react";
 import * as R from "ramda";
 import dayjs from "dayjs";
-import { v4 as uuidv4 } from "uuid";
 
 const {
   __,
@@ -13,27 +12,22 @@ const {
   curry,
   dissocPath,
   gt,
-  head,
   identity,
   ifElse,
   is,
   isNil,
   length,
-  lens,
   lensPath,
   over,
   path,
   pipe,
   prop,
   propEq,
-  propOr,
   reduce,
   reject,
-  reverse,
   set,
   slice,
   subtract,
-  tap,
   view,
 } = R;
 
