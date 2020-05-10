@@ -7,7 +7,6 @@ const {
   allPass,
   always,
   append,
-  assoc,
   assocPath,
   curry,
   dissocPath,
@@ -149,17 +148,6 @@ export function handleStart(state, action) {
   const id = prop("id", action);
   const itemPath = ["byId", "items", id];
   const workLogLens = lensPath([...itemPath, "workLog"]);
-  const item = pipe(
-    path(itemPath),
-    ifElse(
-      pipe(
-        prop("workLog"),
-        isNil
-      ),
-      pipe(assoc("workLog", [])),
-      identity
-    )
-  )(state);
 
   return pipe(
     over(workLogLens, append({ startedAtMS: +dayjs() })),

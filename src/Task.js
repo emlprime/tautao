@@ -2,16 +2,14 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { useParams } from "react-router-dom";
-import { useStore, HandleChange } from "./StoreContext";
+import { useStore } from "./StoreContext";
 import TaskList from "./TaskList";
-import TaskListItem from "./TaskListItem";
 import ListItemField from "./ListItemField";
 import TaskDetail from "./TaskDetail";
 import ElapsedTime from "./ElapsedTime";
 
 const { isNil, not, pipe } = R;
 
-const { prop } = R;
 
 function Task() {
   const { id } = useParams();

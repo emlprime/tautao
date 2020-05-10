@@ -4,15 +4,13 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Project from "./Project";
 import Task from "./Task";
-import { useStore, getData, putData, postData, persist } from "./StoreContext";
-import { formatIds } from "./utils";
+import { useStore, getData, persist } from "./StoreContext";
 
 const {
   always,
   append,
   assoc,
   converge,
-  defaultTo,
   equals,
   identity,
   isNil,

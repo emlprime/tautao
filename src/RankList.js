@@ -4,21 +4,32 @@ import * as R from "ramda";
 import TaskListItem from "./TaskListItem";
 import Button from "./Button";
 
-const mapIndexed = R.addIndex(R.map);
-const rankChanged = ([index, prevIndex]) => R.not(R.equals(index, prevIndex));
+const {
+  __,
+  addIndex,
+  always,
+  append,
+  converge,
+  curry,
+  equals,
+  head,
+  ifElse,
+  includes,
+  indexOf,
+  insertAll,
+  length,
+  map,
+  pipe,
+  prop,
+  reject,
+} = R;
 
-const inRange = (num, min, max) => num >= min && num < max;
+const mapIndexed = addIndex(map);
 
-const range = R.range(0);
-
-const HEIGHT = 40;
-
-const rejectIndexed = R.addIndex(R.reject);
-const reflowedSubset = R.curry((superset, selection) =>
-  R.map(R.pipe(R.prop(R.__, superset)))(selection)
-);
-const withSubsetRejected = R.curry((superset, selection) =>
-  rejectIndexed((i, index) => R.includes(index, selection))(superset)
+const rejectIndexed = addIndex(reject);
+const reflowedSubset = curry((superset, selection) => map(pipe(prop(__, superset)))(selection));
+const withSubsetRejected = curry((superset, selection) =>
+  rejectIndexed((i, index) => includes(index, selection))(superset)
 );
 
 const spliceReflowedSelection = R.curry((insertionIndex, superset, selection) =>
@@ -27,10 +38,8 @@ const spliceReflowedSelection = R.curry((insertionIndex, superset, selection) =>
   )
 );
 
-const indexOfOrNil = R.curry((list, value) => {
-  return R.pipe(R.ifElse(R.pipe(R.includes(R.__, list)), R.indexOf(R.__, list), R.always("")))(
-    value
-  );
+const indexOfOrNil = curry((list, value) => {
+  return pipe(ifElse(pipe(includes(__, list)), indexOf(__, list), always("")))(value);
 });
 
 const reducer = (state, action) => {
@@ -38,7 +47,7 @@ const reducer = (state, action) => {
     case "UPDATE":
       const { index } = action.payload;
 
-      const result = R.ifElse(R.includes(index), R.reject(R.equals(index)), R.append(index))(state);
+      const result = ifElse(includes(index), reject(equals(index)), append(index))(state);
       return result;
     case "CLEAR":
       return [];
@@ -50,11 +59,10 @@ const reducer = (state, action) => {
 const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
   const [selected, dispatch] = useReducer(reducer, []);
 
-  const countOfItems = items.length;
   const indexOfSelectedOrNil = indexOfOrNil(selected);
 
   const handleReflowItems = useCallback(() => {
-    handleNewOrderSubmit(spliceReflowedSelection(R.head(selected), items, selected));
+    handleNewOrderSubmit(spliceReflowedSelection(head(selected), items, selected));
     dispatch({ type: "CLEAR" });
   }, [items, selected]);
 
@@ -64,7 +72,7 @@ const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
   }, [selected]);
 
   const handleReflowItemsToBottom = useCallback(() => {
-    handleNewOrderSubmit(spliceReflowedSelection(R.length(items), items, selected));
+    handleNewOrderSubmit(spliceReflowedSelection(length(items), items, selected));
     dispatch({ type: "CLEAR" });
   }, [selected]);
 
