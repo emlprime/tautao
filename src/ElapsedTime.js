@@ -38,7 +38,7 @@ function ElapsedTime() {
   useInterval(
     () => {
       const diffHour = now.diff(startTime, "hour");
-      const diffMin = now.diff(startTime, "minute");
+      const diffMin = modulo(now.diff(startTime, "minute"), 60);
       const diffSec = modulo(now.diff(startTime, "second"), 60);
       const elapsedDisplay = sprintf("%02d:%02d:%02d", diffHour, diffMin, diffSec);
 

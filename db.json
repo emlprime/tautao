@@ -3,48 +3,7 @@
     {
       "id": "abc123",
       "name": "Tau Tao",
-      "rootIds": [
-        {
-          "id": "OvDoDK7",
-          "model": "items"
-        },
-        {
-          "id": "Tivd2k-",
-          "model": "items"
-        },
-        {
-          "id": "5NnYkQG",
-          "model": "items"
-        },
-        {
-          "id": "7gtYLGG",
-          "model": "items"
-        },
-        {
-          "id": "kikPhR-",
-          "model": "items"
-        },
-        {
-          "id": "NrxA4WV",
-          "model": "items"
-        },
-        {
-          "id": "KED9bPi",
-          "model": "items"
-        },
-        {
-          "id": "hjYyZXs",
-          "model": "items"
-        },
-        {
-          "id": "1AlkTc8",
-          "model": "items"
-        },
-        {
-          "id": "F5RcRMR",
-          "model": "items"
-        }
-      ],
+      "rootIds": [],
       "goal": "My goal is to make a task manager that can persist data.",
       "strategy": "This would be cool. and it still is. More changes.\n",
       "velocity": "3"
@@ -54,88 +13,6 @@
     {
       "name": "seed",
       "id": "usestringids"
-    },
-    {
-      "name": "first thing",
-      "estimatedPoints": "4",
-      "id": "7gtYLGG",
-      "tactics": "Testing more test"
-    },
-    {
-      "name": "test",
-      "estimatedPoints": "3",
-      "id": "UYLU-F7"
-    },
-    {
-      "name": "second stuff",
-      "id": "kikPhR-",
-      "tactics": "much more",
-      "estimatedPoints": "2",
-      "actualPoints": "3"
-    },
-    {
-      "name": "third",
-      "id": "NrxA4WV",
-      "estimatedPoints": "3"
-    },
-    {
-      "name": "fourth",
-      "id": "KED9bPi",
-      "estimatedPoints": "9"
-    },
-    {
-      "name": "fifth",
-      "id": "hjYyZXs"
-    },
-    {
-      "name": "sixth",
-      "estimatedPoints": "3",
-      "id": "5NnYkQG"
-    },
-    {
-      "name": "seventh",
-      "estimatedPoints": "6",
-      "id": "Tivd2k-",
-      "actualPoints": "6"
-    },
-    {
-      "name": "ninth",
-      "estimatedPoints": "",
-      "id": "1AlkTc8"
-    },
-    {
-      "name": "tenth",
-      "estimatedPoints": "",
-      "id": "F5RcRMR"
-    },
-    {
-      "name": "eighth",
-      "id": "OvDoDK7",
-      "estimatedPoints": "4",
-      "actualPoints": "8",
-      "workLog": [
-        {
-          "startedAtMS": 1589093112554,
-          "end": 1589096212408,
-          "endedAtMS": 1589096708237
-        },
-        {
-          "startedAtMS": 1589096720930,
-          "endedAtMS": 1589096977331
-        },
-        {
-          "startedAtMS": 1589097240742,
-          "endedAtMS": 1589097502102
-        },
-        {
-          "startedAtMS": 1589097507905
-        }
-      ]
-    },
-    {
-      "name": "sdf",
-      "estimatedPoints": "3",
-      "id": "4QOluxE"
     }
   ]
 }

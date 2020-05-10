@@ -16,10 +16,12 @@ const {
   equals,
   identity,
   isNil,
+  map,
   not,
   path,
   pipe,
   prop,
+  propOr,
   reduce,
 } = R;
 
@@ -37,7 +39,7 @@ const isNotResolved = pipe(
   not
 );
 const getIsChanged = pipe(
-  prop("lastMutation"),
+  prop("mutatedPaths"),
   exists
 );
 
@@ -69,10 +71,13 @@ const App = () => {
 
   useEffect(() => {
     if (isChanged) {
-      const { model, id } = prop("lastMutation", state);
-      const data = path(["byId", model, id], state);
-      persist(model, id, data);
-      console.log("persisted data:", data);
+      const mutatedPaths = propOr([], "mutatedPaths", state);
+      console.log("mutatedPaths:", mutatedPaths);
+      map(({ model, id }) => {
+        const data = path(["byId", model, id], state);
+        console.log("data:", data);
+        persist(model, id, data);
+      }, mutatedPaths);
 
       dispatch({ type: "PERSISTED_DATA" });
     }

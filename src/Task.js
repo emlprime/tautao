@@ -6,7 +6,7 @@ import { useStore, HandleChange } from "./StoreContext";
 import TaskList from "./TaskList";
 import TaskListItem from "./TaskListItem";
 import ListItemField from "./ListItemField";
-import Actions from "./Actions";
+import TaskDetail from "./TaskDetail";
 import ElapsedTime from "./ElapsedTime";
 
 const { isNil, not, pipe } = R;
@@ -15,9 +15,7 @@ const { prop } = R;
 
 function Task() {
   const { id } = useParams();
-
   const { state, dispatch } = useStore();
-
   const basePath = ["byId", "items", id];
 
   const { name, tactics, estimatedPoints, actualPoints, childrenIds } = R.pathOr(
@@ -79,7 +77,7 @@ function Task() {
           </section>
         </ul>
       </fieldset>
-      {showActions && <Actions />}
+      {showActions && <TaskDetail />}
       {showTasklist && <TaskList label="Tasks" rootIds={childrenIds} basePath={basePath} />}
     </Style>
   );

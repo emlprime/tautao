@@ -16,6 +16,7 @@ const {
   head,
   identity,
   ifElse,
+  is,
   isNil,
   length,
   lens,
@@ -79,14 +80,35 @@ function deleteById({ state, id: { id, model } }) {
   return dissocPath(deletePath, state);
 }
 
-const markAsDirty = props =>
-  R.assoc("lastMutation", { ...props, updatedAt: dayjs().toISOString() });
+const mutatedLens = lensPath(["mutatedPaths"]);
+
+const safeAppend = curry((setLens, targetState, item) =>
+  pipe(
+    ifElse(
+      pipe(
+        view(setLens),
+        isNil
+      ),
+      set(setLens, [item]),
+      over(setLens, append(item))
+    )
+  )(targetState)
+);
+
+const safeArray = ifElse(is(Array), identity, Array);
+
+const addToStateArray = curry((setLens, items, targetState) =>
+  reduce(safeAppend(setLens), targetState, safeArray(items))
+);
+const markAsDirty = addToStateArray(mutatedLens);
 
 const getModelAndIdFromPath = slice(1, 3);
 
 export async function handleNewItem(setPath, data, item) {
   // create item in the database
   const response = await postData("items", item);
+  const projectId = path([2], setPath);
+  console.log("projectId:", projectId);
 
   // get the new id
   const newItemId = prop("id", response);
@@ -98,7 +120,8 @@ export async function handleNewItem(setPath, data, item) {
   return pipe(
     over(listLens, append(newItem)),
     assocPath(newItemPath, newItemData),
-    markAsDirty({ model: "items", id: newItemId })
+    markAsDirty({ model: "items", id: newItemId }),
+    markAsDirty({ model: "projects", id: projectId })
   )(data);
 }
 
@@ -116,11 +139,12 @@ export async function handleDeleteItem(rootIdsPath, data, id) {
   deleteData(`items/${id}`);
   const listLens = lensPath(rootIdsPath);
   const deletedItemPath = ["byId", "items", id];
+  const projectId = path([2], rootIdsPath);
 
   return pipe(
     over(listLens, reject(propEq("id", id))),
     dissocPath(deletedItemPath),
-    markAsDirty({ model: "projects", id })
+    markAsDirty({ model: "projects", id: projectId })
   )(data);
 }
 
