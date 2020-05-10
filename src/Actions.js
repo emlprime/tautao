@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { useParams } from "react-router-dom";
-import { useStore, HandleChange } from "./StoreContext";
+import { useStore } from "./StoreContext";
 import Button from "./Button";
 
 const { has, isNil, last, pathOr } = R;
@@ -28,8 +28,6 @@ function Actions() {
       setShowStart(true);
     }
   }, [workLog]);
-
-  const { name, tactics, estimatedPoints, actualPoints, childrenIds } = pathOr([], basePath, state);
 
   const handleStart = useCallback(() => {
     dispatch({ type: "START", id });

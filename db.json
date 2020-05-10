@@ -7,10 +7,6 @@
         {
           "id": "Rf1LQQp",
           "model": "items"
-        },
-        {
-          "id": "5UlHBcV",
-          "model": "items"
         }
       ],
       "goal": "My goal is to make a task manager that can persist data.",
@@ -36,14 +32,10 @@
           "startedAtMS": 1589141998309
         },
         {
-          "startedAtMS": 1589142006789
+          "startedAtMS": 1589142006789,
+          "endedAtMS": 1589143087381
         }
       ]
-    },
-    {
-      "name": "st",
-      "id": "5UlHBcV",
-      "estimatedPoints": "5"
     }
   ]
 }

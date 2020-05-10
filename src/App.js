@@ -41,8 +41,6 @@ const getIsChanged = pipe(
   exists
 );
 
-const getIsDirty = pipe(prop("dirtyItemPath"));
-
 const loowiToObj = reduce((acc, item) => assoc(item.id, item, acc), {});
 
 const App = () => {

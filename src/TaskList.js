@@ -6,7 +6,7 @@ import Progress from "./Progress";
 import PointsTotal from "./PointsTotal";
 import { useStore, handleNewItem, handleNewOrder, handleDeleteItem } from "./StoreContext";
 import NewTaskForm from "./NewTaskForm";
-const { append, converge, curry, filter, is, lt, map, path, pipe, prop, sum, tap } = R;
+const { append, converge, curry, filter, lt, map, path, pipe, prop, sum } = R;
 
 const getPoints = curry((state, model, id) => path(["byId", model, id, "estimatedPoints"], state));
 
