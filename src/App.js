@@ -72,6 +72,8 @@ const App = () => {
       const { model, id } = prop("lastMutation", state);
       const data = path(["byId", model, id], state);
       persist(model, id, data);
+      console.log("persisted data:", data);
+
       dispatch({ type: "PERSISTED_DATA" });
     }
   }, [isChanged, project]);

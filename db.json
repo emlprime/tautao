@@ -111,7 +111,26 @@
     {
       "name": "eighth",
       "id": "OvDoDK7",
-      "estimatedPoints": "4"
+      "estimatedPoints": "4",
+      "actualPoints": "8",
+      "workLog": [
+        {
+          "startedAtMS": 1589093112554,
+          "end": 1589096212408,
+          "endedAtMS": 1589096708237
+        },
+        {
+          "startedAtMS": 1589096720930,
+          "endedAtMS": 1589096977331
+        },
+        {
+          "startedAtMS": 1589097240742,
+          "endedAtMS": 1589097502102
+        },
+        {
+          "startedAtMS": 1589097507905
+        }
+      ]
     },
     {
       "name": "sdf",

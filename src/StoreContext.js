@@ -4,24 +4,35 @@ import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 
 const {
+  __,
   allPass,
+  always,
   append,
   assoc,
   assocPath,
   curry,
   dissocPath,
+  gt,
   head,
+  identity,
+  ifElse,
+  isNil,
+  length,
+  lens,
   lensPath,
   over,
   path,
   pipe,
   prop,
   propEq,
+  propOr,
   reduce,
   reject,
   reverse,
   set,
   slice,
+  subtract,
+  tap,
   view,
 } = R;
 
@@ -117,6 +128,46 @@ export async function persist(model, id, data) {
   return await putData(`${model}/${id}`, data);
 }
 
+export function handleStart(state, action) {
+  const id = prop("id", action);
+  const itemPath = ["byId", "items", id];
+  const workLogLens = lensPath([...itemPath, "workLog"]);
+  const item = pipe(
+    path(itemPath),
+    ifElse(
+      pipe(
+        prop("workLog"),
+        isNil
+      ),
+      pipe(assoc("workLog", [])),
+      identity
+    )
+  )(state);
+
+  return pipe(
+    over(workLogLens, append({ startedAtMS: +dayjs() })),
+    markAsDirty({ model: "items", id })
+  )(state);
+}
+
+export function handleDone(state, action) {
+  const id = prop("id", action);
+  const itemPath = ["byId", "items", id];
+  const workLogPath = [...itemPath, "workLog"];
+  const workLogLens = lensPath([...itemPath, "workLog"]);
+
+  const lastIndex = pipe(
+    view(workLogLens),
+    length,
+    ifElse(gt(1), always(0), subtract(__, 1))
+  )(state);
+  const lastWorkLog = lensPath([...workLogPath, lastIndex, "endedAtMS"]);
+  return pipe(
+    set(lastWorkLog, +dayjs()),
+    markAsDirty({ model: "items", id })
+  )(state);
+}
+
 function reducer(state = {}, action) {
   switch (action.type) {
     case "MERGE_STATE":
@@ -149,6 +200,10 @@ function reducer(state = {}, action) {
 
     case "PERSISTED_DATA":
       return R.dissoc("lastMutation")(state);
+    case "START":
+      return handleStart(state, action);
+    case "DONE":
+      return handleDone(state, action);
     default:
       return state;
   }
