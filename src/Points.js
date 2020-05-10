@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import FieldNumber from "./FieldNumber";
 
-function Points({ points }) {
-  return <Style>{points}</Style>;
+function Points(params) {
+  return (
+    <FieldNumber
+      placeholder="Pts"
+      {...{ id: "estimatedPoints", name: "estimatedPoints", ...params }}
+    />
+  );
 }
 
 export default Points;

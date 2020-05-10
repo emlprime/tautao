@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { useParams } from "react-router-dom";
-import { useStore } from "./StoreContext";
+import { useStore, HandleChange } from "./StoreContext";
 import TaskList from "./TaskList";
 import TaskListItem from "./TaskListItem";
 import ListItemField from "./ListItemField";
@@ -39,6 +39,7 @@ function Task() {
             value={name}
             handleChange={handleChange}
           />
+
           <ListItemField
             type="multiline"
             label="Tactics"
@@ -46,6 +47,7 @@ function Task() {
             value={tactics}
             handleChange={handleChange}
           />
+
           <ListItemField
             id="estimatedPoints"
             type="number"
@@ -54,6 +56,7 @@ function Task() {
             value={estimatedPoints}
             handleChange={handleChange}
           />
+
           <ListItemField
             id="actualPoints"
             type="number"

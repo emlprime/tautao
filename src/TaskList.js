@@ -3,7 +3,7 @@ import * as R from "ramda";
 import RankList from "./RankList";
 import styled from "styled-components";
 import Progress from "./Progress";
-import Points from "./Points";
+import PointsTotal from "./PointsTotal";
 import { useStore, handleNewItem, handleNewOrder, handleDeleteItem } from "./StoreContext";
 import NewTaskForm from "./NewTaskForm";
 const { append, converge, curry, filter, is, lt, map, path, pipe, prop, sum, tap } = R;
@@ -50,10 +50,10 @@ const TaskList = ({ label, rootIds, basePath }) => {
     <Style>
       <header>
         <h2>{label}</h2>
-        <Totals>
-          <Points points={totalPoints} />
+        <RightContent>
+          <PointsTotal points={totalPoints} />
           <Progress counts={{ todoCount: 5, doneCount: 3, doingCount: 5 }} />
-        </Totals>
+        </RightContent>
       </header>
       <StyledRankList
         items={rootIds}
@@ -72,8 +72,9 @@ const StyledRankList = styled(RankList)``;
 const Style = styled.section`
   header {
     margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 128px;
+    grid-gap: 4px;
   }
   ul {
     padding: 0.1rem;
@@ -85,8 +86,8 @@ const Style = styled.section`
   }
 `;
 
-const Totals = styled.div`
-  display: flex;
-  width: 70px;
-  justify-content: space-between;
+const RightContent = styled.section`
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: 64px 64px;
 `;

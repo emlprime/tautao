@@ -66,5 +66,5 @@ export default NewTaskForm;
 const Style = styled.form`
   padding-top: 1rem;
   display: grid;
-  grid-template-columns: 1fr 50px 50px;
+  grid-template-columns: 1fr 64px 50px;
 `;

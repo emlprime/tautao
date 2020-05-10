@@ -7,28 +7,36 @@ import Handle from "./Handle";
 import Points from "./Points";
 import Progress from "./Progress";
 import Button from "./Button";
+import FieldText from "./FieldText";
 
 const formatChosen = ({ selectionIndex }) => (R.not(R.isEmpty(selectionIndex)) ? "#aaa" : "#111");
 
 function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemClick }) {
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
   const id = R.prop("id", taskId);
-
-  const item = R.path(["byId", R.prop("model", taskId), id], state);
+  const basePath = ["byId", R.prop("model", taskId), id];
+  const item = R.path(basePath, state);
   const name = R.prop("name", item);
   const points = R.prop("estimatedPoints", item);
 
   const counts = { todoCount: 1, doingCount: 3, doneCount: 1 };
 
+  const handleChange = e =>
+    dispatch({
+      type: "MERGE_VALUE",
+      payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
+    });
+
   return (
     <Style id={`item_${id}`} selectionIndex={selectionIndex}>
       <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
-      <Link to={`/task/${id}`}>{name}</Link>
-
-      <Points points={points} />
-      <Progress counts={counts} />
-
-      <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
+      <Link to={`/task/${id}`}>&#128269;</Link>
+      <FieldText {...{ id: "name", name: "name", value: name, handleChange }} />
+      <RightContent>
+        <Points {...{ value: points, handleChange }} />
+        <Progress counts={counts} />
+        <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
+      </RightContent>
     </Style>
   );
 }
@@ -42,7 +50,7 @@ const Style = styled.li`
   padding-left: 0.5rem;
   display: grid;
   align-items: center;
-  grid-template-columns: 32px 1fr 32px 32px 32px;
+  grid-template-columns: 32px 32px 1fr 128px;
   grid-gap: 4px;
 
   button {
@@ -53,4 +61,20 @@ const Style = styled.li`
     justify-content: center;
     align-items: center;
   }
+
+  input {
+    background-color: #111;
+    :hover {
+      background-color: #333;
+    }
+    ::selection {
+      color: #000;
+      background-color: #ccc;
+    }
+  }
+`;
+
+const RightContent = styled.section`
+  display: grid;
+  grid-template-columns: 64px 32px 32px;
 `;

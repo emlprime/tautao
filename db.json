@@ -5,6 +5,18 @@
       "name": "Tau Tao",
       "rootIds": [
         {
+          "id": "OvDoDK7",
+          "model": "items"
+        },
+        {
+          "id": "Tivd2k-",
+          "model": "items"
+        },
+        {
+          "id": "5NnYkQG",
+          "model": "items"
+        },
+        {
           "id": "7gtYLGG",
           "model": "items"
         },
@@ -25,18 +37,6 @@
           "model": "items"
         },
         {
-          "id": "5NnYkQG",
-          "model": "items"
-        },
-        {
-          "id": "Tivd2k-",
-          "model": "items"
-        },
-        {
-          "id": "OvDoDK7",
-          "model": "items"
-        },
-        {
           "id": "1AlkTc8",
           "model": "items"
         },
@@ -46,7 +46,7 @@
         }
       ],
       "goal": "My goal is to make a task manager that can persist data.",
-      "strategy": "This would be cool. and it still is. More changes.d\n",
+      "strategy": "This would be cool. and it still is. More changes.\n",
       "velocity": "3"
     }
   ],
@@ -56,10 +56,10 @@
       "id": "usestringids"
     },
     {
-      "name": "first",
-      "estimatedPoints": "1",
+      "name": "first thing",
+      "estimatedPoints": "4",
       "id": "7gtYLGG",
-      "tactics": "Testing"
+      "tactics": "Testing more test"
     },
     {
       "name": "test",
@@ -67,16 +67,21 @@
       "id": "UYLU-F7"
     },
     {
-      "name": "second",
-      "id": "kikPhR-"
+      "name": "second stuff",
+      "id": "kikPhR-",
+      "tactics": "much more",
+      "estimatedPoints": "2",
+      "actualPoints": "3"
     },
     {
       "name": "third",
-      "id": "NrxA4WV"
+      "id": "NrxA4WV",
+      "estimatedPoints": "3"
     },
     {
       "name": "fourth",
-      "id": "KED9bPi"
+      "id": "KED9bPi",
+      "estimatedPoints": "9"
     },
     {
       "name": "fifth",
@@ -84,13 +89,14 @@
     },
     {
       "name": "sixth",
-      "estimatedPoints": "",
+      "estimatedPoints": "3",
       "id": "5NnYkQG"
     },
     {
       "name": "seventh",
-      "estimatedPoints": "",
-      "id": "Tivd2k-"
+      "estimatedPoints": "6",
+      "id": "Tivd2k-",
+      "actualPoints": "6"
     },
     {
       "name": "ninth",
@@ -104,7 +110,8 @@
     },
     {
       "name": "eighth",
-      "id": "OvDoDK7"
+      "id": "OvDoDK7",
+      "estimatedPoints": "4"
     },
     {
       "name": "sdf",

@@ -17,6 +17,7 @@ function Project() {
       type: "MERGE_VALUE",
       payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
     });
+
   return (
     <Style>
       <fieldset>
@@ -28,6 +29,7 @@ function Project() {
             value={name}
             handleChange={handleChange}
           />
+
           <ListItemField
             type="multiline"
             label="Goal"
@@ -35,6 +37,7 @@ function Project() {
             value={goal}
             handleChange={handleChange}
           />
+
           <ListItemField
             type="multiline"
             label="Strategy"
@@ -42,6 +45,7 @@ function Project() {
             value={strategy}
             handleChange={handleChange}
           />
+
           <ListItemField
             type="number"
             label="Sprint Velocity"
