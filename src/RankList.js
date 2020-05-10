@@ -80,6 +80,7 @@ const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
         {mapIndexed((item, index) => {
           return (
             <TaskListItem
+              key={item.id}
               taskId={item}
               selectionIndex={indexOfSelectedOrNil(index)}
               handleClick={() => dispatch({ type: "UPDATE", payload: { index } })}

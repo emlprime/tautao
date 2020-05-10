@@ -46,7 +46,7 @@
         }
       ],
       "goal": "My goal is to make a task manager that can persist data.",
-      "strategy": "This would be cool. and it still is. More changes",
+      "strategy": "This would be cool. and it still is. More changes.d\n",
       "velocity": "3"
     }
   ],
@@ -58,7 +58,8 @@
     {
       "name": "first",
       "estimatedPoints": "1",
-      "id": "7gtYLGG"
+      "id": "7gtYLGG",
+      "tactics": "Testing"
     },
     {
       "name": "test",
@@ -104,6 +105,11 @@
     {
       "name": "eighth",
       "id": "OvDoDK7"
+    },
+    {
+      "name": "sdf",
+      "estimatedPoints": "3",
+      "id": "4QOluxE"
     }
   ]
 }

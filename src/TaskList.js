@@ -4,16 +4,7 @@ import RankList from "./RankList";
 import styled from "styled-components";
 import Progress from "./Progress";
 import Points from "./Points";
-import {
-  useStore,
-  getData,
-  putData,
-  postData,
-  handleNewItem,
-  handleNewOrder,
-  handleDeleteItem,
-  persistProject,
-} from "./StoreContext";
+import { useStore, handleNewItem, handleNewOrder, handleDeleteItem } from "./StoreContext";
 import NewTaskForm from "./NewTaskForm";
 const { append, converge, curry, filter, is, lt, map, path, pipe, prop, sum, tap } = R;
 

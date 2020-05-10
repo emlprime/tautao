@@ -15,7 +15,7 @@ function Task() {
   const { state, dispatch } = useStore();
 
   const basePath = ["byId", "items", id];
-  console.log("basePath:", basePath);
+
   const { name, tactics, estimatedPoints, actualPoints, childrenIds = [] } = R.pathOr(
     [],
     basePath,
@@ -27,6 +27,7 @@ function Task() {
       type: "MERGE_VALUE",
       payload: { targetPath: [...basePath, e.target.name], value: e.target.value },
     });
+
   return (
     <Style>
       <fieldset>

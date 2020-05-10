@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
 import Project from "./Project";
 import Task from "./Task";
-import { useStore, getData, putData, postData, persistProject } from "./StoreContext";
+import { useStore, getData, putData, postData, persist } from "./StoreContext";
 import { formatIds } from "./utils";
 
 const {
@@ -51,6 +51,7 @@ const App = () => {
   const project = getCurrentProject(state);
   const projectName = prop("name", project);
   const isPending = isNotResolved(state);
+
   const loadData = useCallback(async () => {
     if (isPending) {
       const projectData = await getData("projects/abc123");
@@ -68,7 +69,9 @@ const App = () => {
 
   useEffect(() => {
     if (isChanged) {
-      persistProject(project);
+      const { model, id } = prop("lastMutation", state);
+      const data = path(["byId", model, id], state);
+      persist(model, id, data);
       dispatch({ type: "PERSISTED_DATA" });
     }
   }, [isChanged, project]);

@@ -10,6 +10,7 @@ const {
   assocPath,
   curry,
   dissocPath,
+  head,
   lensPath,
   over,
   path,
@@ -18,7 +19,9 @@ const {
   propEq,
   reduce,
   reject,
+  reverse,
   set,
+  slice,
   view,
 } = R;
 
@@ -65,7 +68,10 @@ function deleteById({ state, id: { id, model } }) {
   return dissocPath(deletePath, state);
 }
 
-const markAsDirty = R.assoc("lastMutation", dayjs().toISOString());
+const markAsDirty = props =>
+  R.assoc("lastMutation", { ...props, updatedAt: dayjs().toISOString() });
+
+const getModelAndIdFromPath = slice(1, 3);
 
 export async function handleNewItem(setPath, data, item) {
   // create item in the database
@@ -81,15 +87,17 @@ export async function handleNewItem(setPath, data, item) {
   return pipe(
     over(listLens, append(newItem)),
     assocPath(newItemPath, newItemData),
-    markAsDirty
+    markAsDirty({ model: "items", id: newItemId })
   )(data);
 }
 
 export async function handleNewOrder(setPath, data, reoderedIds) {
   const listLens = lensPath(setPath);
+  const [model, id] = getModelAndIdFromPath(setPath);
+
   return pipe(
     set(listLens, reoderedIds),
-    markAsDirty
+    markAsDirty({ model, id })
   )(data);
 }
 
@@ -97,16 +105,16 @@ export async function handleDeleteItem(rootIdsPath, data, id) {
   deleteData(`items/${id}`);
   const listLens = lensPath(rootIdsPath);
   const deletedItemPath = ["byId", "items", id];
+
   return pipe(
     over(listLens, reject(propEq("id", id))),
     dissocPath(deletedItemPath),
-    markAsDirty
+    markAsDirty({ model: "projects", id })
   )(data);
 }
 
-export async function persistProject(projectData) {
-  const id = prop("id", projectData);
-  return await putData(`projects/${id}`, projectData);
+export async function persist(model, id, data) {
+  return await putData(`${model}/${id}`, data);
 }
 
 function reducer(state = {}, action) {
@@ -119,9 +127,11 @@ function reducer(state = {}, action) {
         console.log("target path to set:", value);
       }
 
+      const [model, id] = getModelAndIdFromPath(targetPath);
+
       const newState = R.pipe(
         R.assocPath(targetPath, value),
-        markAsDirty
+        markAsDirty({ model, id })
       )(state);
 
       return newState;
@@ -138,7 +148,7 @@ function reducer(state = {}, action) {
       )({ state, id: action.payload });
 
     case "PERSISTED_DATA":
-      return R.pipe(R.dissoc("lastMutation"))(state);
+      return R.dissoc("lastMutation")(state);
     default:
       return state;
   }
