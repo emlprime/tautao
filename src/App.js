@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import * as R from "ramda";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./Header";
@@ -14,6 +14,7 @@ const {
   equals,
   identity,
   isNil,
+  length,
   map,
   not,
   path,
@@ -65,17 +66,24 @@ const App = () => {
     }
   }, [dispatch, isPending]);
 
+  const handlePersist = useCallback(
+    ({ model, id }) => {
+      const data = path(["byId", model, id], state);
+      persist(model, id, data);
+    },
+    [state]
+  );
+
+  const [requestCounter, setRequestCounter] = useState(0);
   useEffect(() => {
-    if (isChanged) {
-      map(({ model, id }) => {
-        const data = path(["byId", model, id], state);
-
-        persist(model, id, data);
-      }, mutatedPaths);
-
+    if (requestCounter < 50 && (isChanged && length(mutatedPaths) > 0)) {
       dispatch({ type: "PERSISTED_DATA" });
+
+      setRequestCounter(requestCounter + 1);
+
+      map(handlePersist, mutatedPaths);
     }
-  }, [mutatedPaths, isChanged, project, dispatch, state]);
+  }, [mutatedPaths, isChanged, project, dispatch, setRequestCounter]);
 
   const shouldLoadData = pipe(
     prop("byId"),
