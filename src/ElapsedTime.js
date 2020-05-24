@@ -53,6 +53,7 @@ const timeUnits = [
   ["milliseconds", 1],
 ];
 
+// rework this to be a transducer
 function formatDisplay(remaining) {
   const subdividedUnits = reduce(unitsReducer, { remaining }, timeUnits);
   const diffHour = prop("hours", subdividedUnits);
@@ -74,18 +75,6 @@ function ElapsedTime() {
 
   const [showStart, showDone] = calcShowStartAndShowEnd(workLog);
 
-  const now = dayjs();
-
-  const lastLogItemLens = lensIndex(-1);
-
-  const startTime = workLog
-    ? pipe(
-        last,
-        prop("startedAtMS"),
-        dayjs
-      )(workLog)
-    : null;
-
   const timestamps = map(({ startedAtMS, endedAtMS }) => [startedAtMS, endedAtMS], workLog);
   const remaining = reduce(diffReducer, 0, timestamps);
   const [timeElapsed, setTimeElapsed] = useState(remaining);
@@ -98,6 +87,7 @@ function ElapsedTime() {
     },
     showDone ? 1000 : null
   );
+
   return (
     <Style>
       <header>Elapsed Time</header>

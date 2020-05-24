@@ -5,11 +5,7 @@
       "name": "Tau Tao",
       "rootIds": [
         {
-          "id": "2Rqlr3e",
-          "model": "items"
-        },
-        {
-          "id": "aVyBI_0",
+          "id": "gorh5-D",
           "model": "items"
         }
       ],
@@ -32,35 +28,8 @@
       "id": "QXtOADB"
     },
     {
-      "name": "test",
-      "id": "2Rqlr3e",
-      "workLog": [
-        {
-          "startedAtMS": 1590346932196
-        }
-      ]
-    },
-    {
-      "name": "ast",
-      "id": "aVyBI_0",
-      "workLog": [
-        {
-          "startedAtMS": 1590348902195,
-          "endedAtMS": 1590348908832
-        },
-        {
-          "startedAtMS": 1590348913782,
-          "endedAtMS": 1590348920249
-        },
-        {
-          "startedAtMS": 1590348944190,
-          "endedAtMS": 1590348951759
-        },
-        {
-          "startedAtMS": 1590348964821,
-          "endedAtMS": 1590349010593
-        }
-      ]
+      "name": "foo",
+      "id": "gorh5-D"
     }
   ]
 }
