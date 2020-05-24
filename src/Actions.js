@@ -7,10 +7,6 @@ import Button from "./Button";
 
 const { __, always, gt, has, ifElse, last, length, pathOr, pipe } = R;
 
-const hasItems = pipe(
-  length,
-  gt(__, 0)
-);
 const calcShowStartAndShowEnd = pipe(
   ifElse(
     hasItems,
