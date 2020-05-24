@@ -4,23 +4,10 @@ import * as R from "ramda";
 import { useParams } from "react-router-dom";
 import { useStore } from "./StoreContext";
 import Button from "./Button";
+import { calcShowStartAndShowEnd } from "./utils/control";
 
 const { __, always, gt, has, ifElse, last, length, pathOr, pipe } = R;
 
-const calcShowStartAndShowEnd = pipe(
-  ifElse(
-    hasItems,
-    ifElse(
-      pipe(
-        last,
-        has("endedAtMS")
-      ),
-      always([true, false]),
-      always([false, true])
-    ),
-    always([true, false])
-  )
-);
 function Actions() {
   const { id } = useParams();
   const { state, dispatch } = useStore();

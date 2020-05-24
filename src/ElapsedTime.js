@@ -6,6 +6,8 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useStore } from "./StoreContext";
 import useInterval from "./useInterval";
+import { calcShowStartAndShowEnd } from "./utils/control";
+import { buildIncrementalDurationString } from "./utils/string";
 const {
   add,
   has,
@@ -56,8 +58,8 @@ function formatDisplay(remaining) {
   const diffHour = prop("hours", subdividedUnits);
   const diffMin = prop("minutes", subdividedUnits);
   const diffSec = prop("seconds", subdividedUnits);
-  const elapsedDisplay = sprintf("%02d:%02d:%02d", diffHour, diffMin, diffSec);
-  return elapsedDisplay;
+
+  return buildIncrementalDurationString([diffSec, diffMin, diffHour]);
 }
 
 function ElapsedTime() {
@@ -70,14 +72,11 @@ function ElapsedTime() {
 
   const workLog = pathOr([], workLogPath, state);
 
+  const [showStart, showDone] = calcShowStartAndShowEnd(workLog);
+
   const now = dayjs();
 
   const lastLogItemLens = lensIndex(-1);
-  const tickTime = pipe(
-    view(lastLogItemLens),
-    has("endedAtMS"),
-    not
-  )(workLog);
 
   const startTime = workLog
     ? pipe(
@@ -90,15 +89,14 @@ function ElapsedTime() {
   const timestamps = map(({ startedAtMS, endedAtMS }) => [startedAtMS, endedAtMS], workLog);
   const remaining = reduce(diffReducer, 0, timestamps);
   const [timeElapsed, setTimeElapsed] = useState(remaining);
-  const [display, setDisplay] = useState();
+  const [display, setDisplay] = useState(formatDisplay(timeElapsed));
 
   useInterval(
     () => {
-      console.log("interval");
       setTimeElapsed(timeElapsed + 1000);
       setDisplay(formatDisplay(timeElapsed));
     },
-    tickTime ? 1000 : null
+    showDone ? 1000 : null
   );
   return (
     <Style>

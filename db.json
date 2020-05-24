@@ -5,23 +5,11 @@
       "name": "Tau Tao",
       "rootIds": [
         {
-          "id": "WbfLMKK",
+          "id": "2Rqlr3e",
           "model": "items"
         },
         {
-          "id": "pm6eYLt",
-          "model": "items"
-        },
-        {
-          "id": "ugFf9zd",
-          "model": "items"
-        },
-        {
-          "id": "Fu5hAPz",
-          "model": "items"
-        },
-        {
-          "id": "-4rfJ2X",
+          "id": "aVyBI_0",
           "model": "items"
         }
       ],
@@ -44,106 +32,35 @@
       "id": "QXtOADB"
     },
     {
-      "name": "foobar",
-      "id": "WbfLMKK",
+      "name": "test",
+      "id": "2Rqlr3e",
       "workLog": [
         {
-          "startedAtMS": 1580292719673,
-          "endedAtMS": 1589292726078
-        },
-        {
-          "startedAtMS": 1589294718278,
-          "endedAtMS": 1589294777487
-        },
-        {
-          "startedAtMS": 1589294782066,
-          "endedAtMS": 1589294784645
-        },
-        {
-          "startedAtMS": 1589294786021,
-          "endedAtMS": 1589294788487
-        },
-        {
-          "startedAtMS": 1589739242387,
-          "endedAtMS": 1589739249755
-        },
-        {
-          "startedAtMS": 1590115247951,
-          "endedAtMS": 1590115251149
-        },
-        {
-          "startedAtMS": 1590115388892,
-          "endedAtMS": 1590207523148
-        },
-        {
-          "startedAtMS": 1590207527907,
-          "endedAtMS": 1590207551633
-        },
-        {
-          "startedAtMS": 1590214495099,
-          "endedAtMS": 1590247406817
-        }
-      ],
-      "estimatedPoints": "3"
-    },
-    {
-      "name": "stuff",
-      "estimatedPoints": "1",
-      "id": "pm6eYLt",
-      "workLog": [
-        {
-          "startedAtMS": 1589294995435,
-          "endedAtMS": 1589295053475
-        },
-        {
-          "startedAtMS": 1589295055283,
-          "endedAtMS": 1589295056647
-        },
-        {
-          "startedAtMS": 1590190658818,
-          "endedAtMS": 1590190667749
+          "startedAtMS": 1590346932196
         }
       ]
     },
     {
-      "name": "things tstd",
-      "estimatedPoints": "",
-      "id": "ugFf9zd",
+      "name": "ast",
+      "id": "aVyBI_0",
       "workLog": [
         {
-          "startedAtMS": 1589295062858,
-          "endedAtMS": 1589295064508
+          "startedAtMS": 1590348902195,
+          "endedAtMS": 1590348908832
         },
         {
-          "startedAtMS": 1589295065863,
-          "endedAtMS": 1589295070142
+          "startedAtMS": 1590348913782,
+          "endedAtMS": 1590348920249
         },
         {
-          "startedAtMS": 1589295208852,
-          "endedAtMS": 1589295209625
+          "startedAtMS": 1590348944190,
+          "endedAtMS": 1590348951759
         },
         {
-          "startedAtMS": 1589297358447,
-          "endedAtMS": 1589297360209
+          "startedAtMS": 1590348964821,
+          "endedAtMS": 1590349010593
         }
       ]
-    },
-    {
-      "name": "fourth",
-      "id": "Fu5hAPz",
-      "workLog": [
-        {
-          "startedAtMS": 1589297369404,
-          "endedAtMS": 1589297370941
-        },
-        {
-          "startedAtMS": 1589297374692
-        }
-      ]
-    },
-    {
-      "name": "Moree",
-      "id": "-4rfJ2X"
     }
   ]
 }
