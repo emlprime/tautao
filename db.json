@@ -7,6 +7,10 @@
         {
           "id": "gorh5-D",
           "model": "items"
+        },
+        {
+          "id": "GEJM5zB",
+          "model": "items"
         }
       ],
       "goal": "My goal is to make a task manager that can persist data.",
@@ -29,7 +33,13 @@
     },
     {
       "name": "foo",
-      "id": "gorh5-D"
+      "id": "gorh5-D",
+      "items": []
+    },
+    {
+      "name": "bar",
+      "id": "GEJM5zB",
+      "items": []
     }
   ]
 }

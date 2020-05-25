@@ -6,14 +6,17 @@ import { useStore } from "./StoreContext";
 import Button from "./Button";
 import { calcShowStartAndShowEnd } from "./utils/control";
 
-const { __, always, gt, has, ifElse, last, length, pathOr, pipe } = R;
+const { __, always, gt, has, ifElse, last, length, lensPath, not, pathOr, pipe, prop, view } = R;
 
 function Actions() {
   const { id } = useParams();
   const { state, dispatch } = useStore();
   const basePath = ["byId", "items", id];
+  const itemLens = lensPath(basePath);
+  const item = view(itemLens, state);
   const workLogPath = [...basePath, "workLog"];
   const workLog = pathOr([], workLogPath, state);
+  const showDecompose = not(has("items", item));
 
   const [showStart, showDone] = calcShowStartAndShowEnd(workLog);
 
@@ -25,6 +28,10 @@ function Actions() {
     dispatch({ type: "DONE", id });
   }, [id, dispatch]);
 
+  const handleDecompose = useCallback(() => {
+    dispatch({ type: "DECOMPOSE", id });
+  }, [id, dispatch]);
+
   return (
     <Style>
       <header>Actions</header>
@@ -33,7 +40,7 @@ function Actions() {
       {showDone && <Button onClick={handleDone}>Done</Button>}
       {/* {showBlocked && <Button>Blocked</Button>} */}
       <Button>Will Not Do</Button>
-      <Button>Decompose</Button>
+      {showDecompose && <Button onClick={handleDecompose}>Decompose</Button>}
     </Style>
   );
 }

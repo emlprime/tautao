@@ -173,6 +173,15 @@ export function handleDone(state, action) {
   )(state);
 }
 
+export function handleDecompose(state, action) {
+  const { id } = action;
+  const itemLens = lensPath(["byId", "items", id, "items"]);
+  return pipe(
+    set(itemLens, []),
+    markAsDirty({ model: "items", id })
+  )(state);
+}
+
 function reducer(state = {}, action) {
   switch (action.type) {
     case "MERGE_STATE":
@@ -209,6 +218,8 @@ function reducer(state = {}, action) {
       return handleStart(state, action);
     case "DONE":
       return handleDone(state, action);
+    case "DECOMPOSE":
+      return handleDecompose(state, action);
     default:
       return state;
   }
