@@ -4,7 +4,7 @@ import * as R from "ramda";
 import { useParams } from "react-router-dom";
 import { useStore } from "./StoreContext";
 import Button from "./Button";
-import { calcShowStartAndShowEnd } from "./utils/control";
+import { calcShowStartAndShowEnd, calcShowDecompose } from "./utils/control";
 
 const { __, always, gt, has, ifElse, last, length, lensPath, not, pathOr, pipe, prop, view } = R;
 
@@ -16,7 +16,7 @@ function Actions() {
   const item = view(itemLens, state);
   const workLogPath = [...basePath, "workLog"];
   const workLog = pathOr([], workLogPath, state);
-  const showDecompose = not(has("items", item));
+  const showDecompose = calcShowDecompose(state, id);
 
   const [showStart, showDone] = calcShowStartAndShowEnd(workLog);
 

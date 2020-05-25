@@ -1,4 +1,4 @@
-const { calcShowStartAndShowEnd } = require("./control");
+const { calcShowStartAndShowEnd, calcShowDecompose } = require("./control");
 
 describe("calcShowStartAndShowEnd", () => {
   test("with empty list", () => {
@@ -35,5 +35,24 @@ describe("calcShowStartAndShowEnd", () => {
     ]);
     expect(start).toEqual(true);
     expect(end).toEqual(false);
+  });
+});
+
+describe("calcShowDecompose", () => {
+  const state = {
+    byId: {
+      items: {
+        HASTASKS: { items: [] },
+        HASNOTASKS: {},
+      },
+    },
+  };
+
+  test("with no children", () => {
+    expect(calcShowDecompose(state, "HASTASKS")).toEqual(false);
+  });
+
+  test("with children", () => {
+    expect(calcShowDecompose(state, "HASNOTASKS")).toEqual(true);
   });
 });

@@ -1,6 +1,22 @@
 import * as R from "ramda";
 
-const { __, allPass, always, gt, has, ifElse, last, length, not, pathOr, pipe } = R;
+const {
+  __,
+  allPass,
+  always,
+  append,
+  gt,
+  has,
+  ifElse,
+  last,
+  length,
+  lensPath,
+  not,
+  pathOr,
+  pipe,
+  tap,
+  view,
+} = R;
 
 // predicate non-empty list
 const hasItems = pipe(
@@ -26,3 +42,13 @@ export const calcShowStartAndShowEnd = ifElse(
   secondaryMode,
   primaryMode
 );
+
+export const calcShowDecompose = (state, id) => {
+  return pipe(
+    append(__, ["byId", "items"]),
+    lensPath,
+    view(__, state),
+    has("items"),
+    not
+  )(id);
+};
