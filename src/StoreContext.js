@@ -98,6 +98,7 @@ const markAsDirty = addToStateArray(mutatedLens);
 const getModelAndIdFromPath = slice(1, 3);
 
 export async function handleNewItem(setPath, data, item) {
+  console.log("item:", setPath, data, item);
   // create item in the database
   const response = await postData("items", item);
   const projectId = path([2], setPath);
@@ -127,11 +128,11 @@ export async function handleNewOrder(setPath, data, reoderedIds) {
   )(data);
 }
 
-export async function handleDeleteItem(rootIdsPath, data, id) {
+export async function handleDeleteItem(itemsPath, data, id) {
   deleteData(`items/${id}`);
-  const listLens = lensPath(rootIdsPath);
+  const listLens = lensPath(itemsPath);
   const deletedItemPath = ["byId", "items", id];
-  const projectId = path([2], rootIdsPath);
+  const projectId = path([2], itemsPath);
 
   return pipe(
     over(listLens, reject(propEq("id", id))),
@@ -188,6 +189,7 @@ function reducer(state = {}, action) {
       return R.merge(state, { ...action.payload, status: "RESOLVED" });
     case "MERGE_VALUE":
       const { targetPath, value } = action.payload;
+
       if (!targetPath) {
         console.log("target path to set:", value);
       }

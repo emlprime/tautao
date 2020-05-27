@@ -10,7 +10,7 @@ function Project() {
 
   const projectId = R.prop("currentProjectId", state);
   const basePath = ["byId", "projects", projectId];
-  const { name, goal, strategy, velocity, rootIds } = R.pathOr([], basePath, state);
+  const { name, goal, strategy, velocity, items } = R.pathOr([], basePath, state);
 
   const handleChange = e =>
     dispatch({
@@ -55,7 +55,7 @@ function Project() {
           />
         </ul>
       </fieldset>
-      <TaskList label="Milestones" rootIds={rootIds} basePath={basePath} />
+      <TaskList label="Milestones" items={items} basePath={basePath} />
     </Style>
   );
 }
@@ -64,8 +64,8 @@ export default Project;
 
 const Style = styled.section`
   display: grid;
+  grid-template-columns: 1fr 1fr;
 
-  grid-template: "form milestones" 80vh / 1fr 1fr;
   fieldset li {
     padding: 1rem;
     display: flex;

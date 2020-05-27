@@ -15,7 +15,7 @@ function Task() {
   const { state, dispatch } = useStore();
   const basePath = ["byId", "items", id];
 
-  const { name, tactics, estimatedPoints, actualPoints, childrenIds } = path(basePath, state);
+  const { name, tactics, estimatedPoints, actualPoints, items } = path(basePath, state);
 
   const handleChange = useCallback(
     e => {
@@ -27,7 +27,7 @@ function Task() {
     [dispatch, basePath]
   );
 
-  const showActions = pipe(isNil)(childrenIds);
+  const showActions = pipe(isNil)(items);
   const showTasklist = not(showActions);
 
   return (
@@ -74,7 +74,7 @@ function Task() {
         </ul>
       </fieldset>
       {showActions && <TaskDetail />}
-      {showTasklist && <TaskList label="Tasks" rootIds={childrenIds} basePath={basePath} />}
+      {showTasklist && <TaskList label="Tasks" items={items} basePath={basePath} />}
     </Style>
   );
 }
@@ -83,8 +83,8 @@ export default Task;
 
 const Style = styled.section`
   display: grid;
+  grid-template-columns: 1fr 1fr;
 
-  grid-template: "form milestones" 80vh / 1fr 1fr;
   fieldset li {
     padding: 1rem;
     display: flex;
@@ -94,9 +94,5 @@ const Style = styled.section`
   #estimatedPoints,
   #actualPoints {
     width: 100px;
-  }
-
-  section {
-    display: flex;
   }
 `;

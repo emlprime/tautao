@@ -10,8 +10,8 @@ const { append, converge, curry, filter, lt, map, path, pipe, prop, sum } = R;
 
 const getPoints = curry((state, model, id) => path(["byId", model, id, "estimatedPoints"], state));
 
-const TaskList = ({ label, rootIds, basePath }) => {
-  const rootIdsPath = append("rootIds", basePath);
+const TaskList = ({ label, items, basePath }) => {
+  const itemsPath = append("items", basePath);
   const { state, dispatch } = useStore();
   const getPointsForState = getPoints(state);
   const getPointsByItem = converge(getPointsForState, [prop("model"), prop("id")]);
@@ -20,30 +20,30 @@ const TaskList = ({ label, rootIds, basePath }) => {
     map(val => parseInt(val, 10)),
     filter(lt(0)),
     sum
-  )(rootIds);
+  )(items);
 
   const handleNewOrderSubmit = useCallback(
     async reorderedIds => {
-      const newState = await handleNewOrder(rootIdsPath, state, reorderedIds);
+      const newState = await handleNewOrder(itemsPath, state, reorderedIds);
       dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, rootIdsPath, state]
+    [dispatch, itemsPath, state]
   );
 
   const handleDeleteItemClick = useCallback(
     async id => {
-      const newState = await handleDeleteItem(rootIdsPath, state, id);
+      const newState = await handleDeleteItem(itemsPath, state, id);
       dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, rootIdsPath, state]
+    [dispatch, itemsPath, state]
   );
 
   const handleNewTaskSubmit = useCallback(
     async item => {
-      const newState = await handleNewItem(rootIdsPath, state, item);
+      const newState = await handleNewItem(itemsPath, state, item);
       dispatch({ type: "MERGE_STATE", payload: newState });
     },
-    [dispatch, state, rootIdsPath]
+    [dispatch, state, itemsPath]
   );
 
   return (
@@ -56,7 +56,7 @@ const TaskList = ({ label, rootIds, basePath }) => {
         </RightContent>
       </header>
       <StyledRankList
-        items={rootIds}
+        items={items}
         handleNewOrderSubmit={handleNewOrderSubmit}
         handleDeleteItemClick={handleDeleteItemClick}
       />
@@ -70,12 +70,15 @@ export default TaskList;
 const StyledRankList = styled(RankList)``;
 
 const Style = styled.section`
+  display: flex;
+  flex-direction: column;
   header {
     margin-top: 1rem;
     display: grid;
     grid-template-columns: 1fr 128px;
     grid-gap: 4px;
   }
+
   ul {
     padding: 0.1rem;
     max-height: 330px;

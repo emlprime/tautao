@@ -16,19 +16,20 @@ const buildTaskPath = R.pipe(
 const formatCrumb = R.pick(["id", "name"]);
 
 const findAncestor = ({ id, task, state: { byId, currentProjectId } }) => {
-  const rootIds = R.path(["projects", currentProjectId, "rootIds"], byId);
+  const items = R.path([id, "items"], byId);
   const crumb = formatCrumb(task);
+  return [];
 
   const containsId = taskId => R.any(R.propEq("id", taskId));
   const containsMyId = containsId(id);
 
-  if (containsMyId(rootIds)) {
+  if (containsMyId(items)) {
     return [crumb];
   } else {
     const parent = R.find(R.pathSatisfies(R.includes(id)))(R.values(byId));
     return R.append(
       crumb,
-      findAncestor({ taskId: parent.id, task: parent, state: { byId, rootIds } })
+      findAncestor({ taskId: parent.id, task: parent, state: { byId, items } })
     );
   }
 };
