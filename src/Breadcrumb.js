@@ -3,6 +3,7 @@ import * as R from "ramda";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useStore } from "./StoreContext";
+import { traceAncestry } from "./utils/recursion";
 
 function Spacer() {
   return <span>&nbsp;&gt;&nbsp;</span>;
@@ -34,28 +35,28 @@ const findAncestor = ({ id, task, state: { byId, currentProjectId } }) => {
   }
 };
 
-const traceAncestry = props =>
-  R.pipe(
-    R.converge(R.assoc("task"), [R.converge(R.path, [buildTaskPath, R.prop("state")]), R.identity]),
-    findAncestor
-  )(props);
+function shittyUrlBuilder(model, id) {
+  return R.ifElse(R.equals("projects"), R.always("/"), R.always(`/items/${id}`))(model);
+}
 
 function Breadcrumb({ projectName }) {
   const { id } = useParams();
-  const { state } = useStore();
+  const {
+    state: { byId },
+  } = useStore();
 
-  const crumbs = id ? traceAncestry({ state, id }) : [];
+  if (!id) {
+    return null;
+  }
+  const crumbs = traceAncestry(byId, { model: "items", id });
 
   return (
     <Ul>
-      <li>
-        <Link to="/">{projectName}</Link>
-      </li>
       {R.map(
-        ({ id, name }) => (
+        ({ id, name, model }) => (
           <li key={id}>
             <Spacer />
-            <Link to={`/task/${id}`}>{name}</Link>
+            <Link to={shittyUrlBuilder(model, id)}>{name}</Link>
           </li>
         ),
         crumbs
@@ -70,5 +71,6 @@ const Ul = styled.ul`
   display: flex;
   li {
     padding: 0 0.1rem;
+    white-space: nowrap;
   }
 `;

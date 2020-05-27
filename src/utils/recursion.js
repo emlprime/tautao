@@ -43,7 +43,7 @@ const isParent = curry((byId, itemId, { model: candidateModel, id: candidateId }
   )(byId)
 );
 
-export const traceAncestor = (byId, { model, id }, ancestry = []) => {
+export const traceAncestry = (byId, { model, id }, ancestry = []) => {
   if (model === "projects") {
     const project = getBcData(path([model, id], byId));
     return prepend(project, ancestry);
@@ -53,9 +53,9 @@ export const traceAncestor = (byId, { model, id }, ancestry = []) => {
     const isMyParent = isParent(byId, { model, id });
     const projectParent = find(isMyParent, values(prop("projects", byId)));
     if (projectParent) {
-      return traceAncestor(byId, pick(["id", "model"], projectParent), prepend(item, ancestry));
+      return traceAncestry(byId, pick(["id", "model"], projectParent), prepend(item, ancestry));
     }
     const itemParent = find(isMyParent, values(prop("items", byId)));
-    return traceAncestor(byId, pick(["id", "model"], itemParent), prepend(item, ancestry));
+    return traceAncestry(byId, pick(["id", "model"], itemParent), prepend(item, ancestry));
   }
 };

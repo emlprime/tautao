@@ -34,7 +34,7 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
   return (
     <Style id={`item_${id}`} selectionIndex={selectionIndex}>
       <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
-      <Link to={`/task/${id}`}>
+      <Link to={`/items/${id}`}>
         <span role="img" aria-label="View Detail">
           &#128269;
         </span>

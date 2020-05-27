@@ -104,14 +104,14 @@ const App = () => {
       <Route exact path="/">
         <Header />
       </Route>
-      <Route path="/task/:id">
+      <Route path="/items/:id">
         <Header projectName={projectName} />
       </Route>
       <main>
         <Route exact path="/">
           <Project projectName={projectName} />
         </Route>
-        <Route path="/task/:id">
+        <Route path="/items/:id">
           <Task />
         </Route>
       </main>

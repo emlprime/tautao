@@ -3,7 +3,7 @@ const { traceAncestor } = require("./recursion");
 
 const getBcData = pick(["id", "model", "name"]);
 
-describe("traceAncestor", () => {
+describe("traceAncestry", () => {
   const project = {
     id: "abc123",
     model: "projects",
@@ -28,18 +28,18 @@ describe("traceAncestor", () => {
   };
 
   test("At the project level", () => {
-    expect(traceAncestor(byId, { model: "projects", id: "abc123" })).toEqual([getBcData(project)]);
+    expect(traceAncestry(byId, { model: "projects", id: "abc123" })).toEqual([getBcData(project)]);
   });
 
   test("At the first item level", () => {
-    expect(traceAncestor(byId, { model: "items", id: "abc123" })).toEqual([
+    expect(traceAncestry(byId, { model: "items", id: "abc123" })).toEqual([
       getBcData(project),
       getBcData(item1),
     ]);
   });
 
   test("At the second item level", () => {
-    expect(traceAncestor(byId, { model: "items", id: "def123" })).toEqual([
+    expect(traceAncestry(byId, { model: "items", id: "def123" })).toEqual([
       getBcData(project),
       getBcData(item1),
       getBcData(item2),

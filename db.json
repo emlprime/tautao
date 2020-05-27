@@ -2,7 +2,8 @@
   "projects": [
     {
       "id": "abc123",
-      "name": "Tau Tao",
+        "name": "Tau Tao",
+        "model": "projects",
       "items": [
         {
           "id": "ik0DCj1",
@@ -24,30 +25,37 @@
   ],
   "items": [
     {
+        "model": "items",
       "name": "seed",
       "id": "usestringids"
     },
     {
+        "model": "items",
       "name": "test",
       "id": "lSVRMyW"
     },
     {
+        "model": "items",
       "name": "stuff",
       "id": "QXtOADB"
     },
     {
+        "model": "items",
       "name": "test",
       "id": "J_SBzR_"
     },
     {
+        "model": "items",
       "name": "gggg",
       "id": "4A9hlu0"
     },
     {
+        "model": "items",
       "name": "aaaa",
       "id": "qG26oBR"
     },
     {
+        "model": "items",
       "name": "bbbb",
       "estimatedPoints": "",
       "id": "LpM9N1z",
@@ -59,11 +67,13 @@
       ]
     },
     {
+        "model": "items",
       "name": "fdfdfd",
       "estimatedPoints": "3",
       "id": "7aETMZR"
     },
     {
+        "model": "items",
       "name": "more things",
       "id": "q4-oJCs",
       "workLog": [
@@ -78,15 +88,18 @@
       ]
     },
     {
+        "model": "items",
       "name": "more stuff",
       "id": "xj9jSRT"
     },
     {
+        "model": "items",
       "name": "ts",
       "estimatedPoints": "33",
       "id": "Rney5e0"
     },
     {
+        "model": "items",
       "name": "yet more things",
       "id": "OC7RA6b",
       "items": [
@@ -97,6 +110,7 @@
       ]
     },
     {
+        "model": "items",
       "name": "deeper and deeper",
       "id": "rOaVguL",
       "items": [
@@ -107,10 +121,12 @@
       ]
     },
     {
+        "model": "items",
       "name": "fully deep",
       "id": "4Qj4Scb"
     },
     {
+        "model": "items",
       "name": "Build Milestone",
       "id": "ik0DCj1",
       "items": [
@@ -137,35 +153,42 @@
       ]
     },
     {
+        "model": "items",
       "name": "Build Tasks",
       "estimatedPoints": "",
       "id": "MYA3M0p"
     },
     {
+        "model": "items",
       "name": "Build Elapsed Time",
       "estimatedPoints": "",
       "id": "AZfCQpA"
     },
     {
+        "model": "items",
       "name": "Add name form",
       "id": "BnUcDE_"
     },
     {
+        "model": "items",
       "name": "Add tactics",
       "estimatedPoints": "",
       "id": "wwWup4L"
     },
     {
+        "model": "items",
       "name": "Add estimated Points",
       "estimatedPoints": "",
       "id": "YG5rwsl"
     },
     {
+        "model": "items",
       "name": "Add actual",
       "estimatedPoints": "",
       "id": "PtwPUs4"
     },
     {
+        "model": "items",
       "name": "Add sub task list",
       "estimatedPoints": "",
       "id": "f8uDnTD",
@@ -189,20 +212,24 @@
       ]
     },
     {
+        "model": "items",
       "name": "Add title",
       "id": "eUbHY00"
     },
     {
+        "model": "items",
       "name": "Add list item",
       "estimatedPoints": "",
       "id": "OFTNS3R"
     },
     {
+        "model": "items",
       "name": "add new item form",
       "estimatedPoints": "",
       "id": "uXVX1mZ"
     },
     {
+        "model": "items",
       "name": "add handlers",
       "estimatedPoints": "",
       "id": "ASvAP5n",
@@ -218,17 +245,20 @@
       ]
     },
     {
+        "model": "items",
       "name": "add delete handler",
       "id": "UJ_ykBe"
     },
     {
+        "model": "items",
       "name": "add update handler",
       "estimatedPoints": "",
       "id": "WB9be8h",
       "tactics": "make a handler that takes an id and "
     },
     {
-      "name": "test",
+        "model": "items",
+        "name": "test",
       "id": "HRIOuB5"
     }
   ]
