@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { useStore } from "./StoreContext";
 import { traceAncestry } from "./utils/recursion";
 
+const mapIndexed = R.addIndex(R.map);
+
 function Spacer() {
   return <span>&nbsp;&gt;&nbsp;</span>;
 }
@@ -52,10 +54,10 @@ function Breadcrumb({ projectName }) {
 
   return (
     <Ul>
-      {R.map(
-        ({ id, name, model }) => (
+      {mapIndexed(
+        ({ id, name, model }, i) => (
           <li key={id}>
-            <Spacer />
+            {i > 0 && <Spacer />}
             <Link to={shittyUrlBuilder(model, id)}>{name}</Link>
           </li>
         ),

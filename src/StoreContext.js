@@ -98,7 +98,6 @@ const markAsDirty = addToStateArray(mutatedLens);
 const getModelAndIdFromPath = slice(1, 3);
 
 export async function handleNewItem(setPath, data, item) {
-  console.log("item:", setPath, data, item);
   // create item in the database
   const response = await postData("items", item);
   const projectId = path([2], setPath);
