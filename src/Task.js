@@ -8,7 +8,7 @@ import ListItemField from "./ListItemField";
 import TaskDetail from "./TaskDetail";
 import ElapsedTime from "./ElapsedTime";
 
-const { isNil, not, path, pipe } = R;
+const { isNil, not, path, pipe, prop } = R;
 
 function Task() {
   const { id } = useParams();

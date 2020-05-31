@@ -5,20 +5,47 @@ import { useParams } from "react-router-dom";
 import { useStore } from "./StoreContext";
 import Button from "./Button";
 import { calcShowStartAndShowEnd, calcShowDecompose } from "./utils/control";
+import { useMachine } from "@xstate/react";
+import initTaskMachine from "./taskMachine";
 
-const { __, always, gt, has, ifElse, last, length, lensPath, not, pathOr, pipe, prop, view } = R;
+const {
+  __,
+  anyPass,
+  always,
+  curry,
+  gt,
+  has,
+  ifElse,
+  includes,
+  is,
+  last,
+  length,
+  lensPath,
+  map,
+  not,
+  pathOr,
+  pipe,
+  prop,
+  view,
+} = R;
+
+const isValidAction = curry((current, action) => includes(action, prop("nextEvents", current)));
 
 function Actions() {
   const { id } = useParams();
   const { state, dispatch } = useStore();
   const basePath = ["byId", "items", id];
   const itemLens = lensPath(basePath);
-  const item = view(itemLens, state);
+  const { status } = view(itemLens, state);
+
   const workLogPath = [...basePath, "workLog"];
   const workLog = pathOr([], workLogPath, state);
   const showDecompose = calcShowDecompose(state, id);
 
   const [showStart, showDone] = calcShowStartAndShowEnd(workLog);
+  const [current, send] = useMachine(initTaskMachine(status));
+  const actions = ["START", "CLOSE", "PAUSE", "RESUME", "BLOCK", "UNBLOCK", "QUIT", "FINISH"];
+  const hasAvailableAction = isValidAction(current);
 
   const handleStart = useCallback(() => {
     dispatch({ type: "START", id });
@@ -35,11 +62,13 @@ function Actions() {
   return (
     <Style>
       <header>Actions</header>
+      <li>Status: {prop("value", current)}</li>
+      {map(action => {
+        return hasAvailableAction(action) ? (
+          <Button onClick={() => send(action)}>{action}</Button>
+        ) : null;
+      }, actions)}
 
-      {showStart && <Button onClick={handleStart}>Start</Button>}
-      {showDone && <Button onClick={handleDone}>Done</Button>}
-      {/* {showBlocked && <Button>Blocked</Button>} */}
-      <Button>Will Not Do</Button>
       {showDecompose && <Button onClick={handleDecompose}>Decompose</Button>}
     </Style>
   );
