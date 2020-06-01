@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "./StoreContext";
 import Handle from "./Handle";
 import Points from "./Points";
@@ -32,26 +33,34 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
   );
 
   return (
-    <Style id={`item_${id}`} selectionIndex={selectionIndex}>
-      <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
-      <Link to={`/items/${id}`}>
-        <span role="img" aria-label="View Detail">
-          &#128269;
-        </span>
-      </Link>
-      <FieldText {...{ id: taskId.id, name: "name", value: name, handleChange }} />
-      <RightContent>
-        <Points {...{ value: points, handleChange }} />
-        <Progress counts={counts} />
-        <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
-      </RightContent>
-    </Style>
+    <AnimatePresence>
+      <Style
+        id={`item_${id}`}
+        selectionIndex={selectionIndex}
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "2rem" }}
+        exit={{ opacity: 0, height: "-100%" }}
+      >
+        <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
+        <Link to={`/items/${id}`}>
+          <span role="img" aria-label="View Detail">
+            &#128269;
+          </span>
+        </Link>
+        <FieldText {...{ id: taskId.id, name: "name", value: name, handleChange }} />
+        <RightContent>
+          <Points {...{ value: points, handleChange }} />
+          <Progress counts={counts} />
+          <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
+        </RightContent>
+      </Style>
+    </AnimatePresence>
   );
 }
 
 export default TaskListItem;
 
-const Style = styled.li`
+const Style = styled(motion.li)`
   background-color: ${formatChosen};
   margin: 0 0.2rem 0.2rem 0;
   padding-left: 0.5rem;

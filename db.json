@@ -308,7 +308,17 @@
     {
       "name": "fourth",
       "estimatedPoints": "3",
-      "id": "AuXCtHS"
+      "id": "AuXCtHS",
+      "items": [
+        {
+          "id": "8Sc1K1F",
+          "model": "items"
+        },
+        {
+          "id": "prUwi00",
+          "model": "items"
+        }
+      ]
     },
     {
       "name": "fifth",
@@ -328,6 +338,24 @@
       "name": "subthird",
       "estimatedPoints": "",
       "id": "THUnc5-"
+    },
+    {
+      "name": "Foo",
+      "id": "8Sc1K1F"
+    },
+    {
+      "name": "Bar",
+      "estimatedPoints": "",
+      "id": "prUwi00"
+    },
+    {
+      "name": "blah",
+      "id": "QVgDEfq"
+    },
+    {
+      "name": "things",
+      "estimatedPoints": "",
+      "id": "hi-vJUH"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import * as R from "ramda";
 import { useParams } from "react-router-dom";
@@ -7,17 +7,21 @@ import Button from "./Button";
 import { calcShowStartAndShowEnd, calcShowDecompose } from "./utils/control";
 import { useMachine } from "@xstate/react";
 import initTaskMachine from "./taskMachine";
+import { motion, AnimatePresence } from "framer-motion";
 
 const {
   __,
   anyPass,
   always,
+  assoc,
   curry,
+  equals,
   gt,
   has,
   ifElse,
   includes,
   is,
+  keys,
   last,
   length,
   lensPath,
@@ -26,13 +30,13 @@ const {
   pathOr,
   pipe,
   prop,
+  reduce,
   view,
 } = R;
 
-const isValidAction = curry((current, action) => includes(action, prop("nextEvents", current)));
-
 function Actions() {
   const { id } = useParams();
+  const [startStatus, setStartStatus] = useState("open");
   const { state, dispatch } = useStore();
   const basePath = ["byId", "items", id];
   const itemLens = lensPath(basePath);
@@ -40,12 +44,12 @@ function Actions() {
 
   const workLogPath = [...basePath, "workLog"];
   const workLog = pathOr([], workLogPath, state);
-  const showDecompose = calcShowDecompose(state, id);
 
   const [showStart, showDone] = calcShowStartAndShowEnd(workLog);
   const [current, send] = useMachine(initTaskMachine(status));
-  const actions = ["START", "CLOSE", "PAUSE", "RESUME", "BLOCK", "UNBLOCK", "QUIT", "FINISH"];
-  const hasAvailableAction = isValidAction(current);
+  const showDecompose = calcShowDecompose(state, id, current.value);
+
+  const actions = ["START", "PAUSE", "RESUME", "BLOCK", "UNBLOCK", "QUIT", "FINISH"];
 
   const handleStart = useCallback(() => {
     dispatch({ type: "START", id });
@@ -62,14 +66,39 @@ function Actions() {
   return (
     <Style>
       <header>Actions</header>
-      <li>Status: {prop("value", current)}</li>
+      <li>
+        Status: <pre>{JSON.stringify(prop("value", current))}</pre>
+      </li>
       {map(action => {
-        return hasAvailableAction(action) ? (
-          <Button onClick={() => send(action)}>{action}</Button>
-        ) : null;
+        return (
+          includes(action, current.nextEvents) && (
+            <AnimatePresence>
+              <AnimatedButton
+                key={action}
+                onClick={() => send(action)}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "2rem" }}
+                exit={{ opacity: 0, height: "-100%" }}
+              >
+                {action}
+              </AnimatedButton>
+            </AnimatePresence>
+          )
+        );
       }, actions)}
 
-      {showDecompose && <Button onClick={handleDecompose}>Decompose</Button>}
+      {showDecompose && (
+        <AnimatePresence>
+          <AnimatedButton
+            onClick={handleDecompose}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "2rem" }}
+            exit={{ opacity: 0, height: "-100%" }}
+          >
+            DECOMPOSE
+          </AnimatedButton>
+        </AnimatePresence>
+      )}
     </Style>
   );
 }
@@ -85,3 +114,5 @@ const Style = styled.section`
     margin-bottom: 1rem;
   }
 `;
+
+const AnimatedButton = styled(motion.button)``;

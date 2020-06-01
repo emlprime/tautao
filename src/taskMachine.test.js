@@ -20,7 +20,6 @@ describe("useTaskState", () => {
 
   test("easy", () => {
     runScenario(mockCallback, ["START", "FINISH"]);
-    console.log(mockCallback.mock.calls);
     expect(mockCallback.mock.calls).toEqual([
       ["todo"],
       [{ inProgress: "doing" }],

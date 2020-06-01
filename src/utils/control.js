@@ -5,9 +5,11 @@ const {
   allPass,
   always,
   append,
+  equals,
   gt,
   has,
   ifElse,
+  is,
   last,
   length,
   lensPath,
@@ -43,12 +45,17 @@ export const calcShowStartAndShowEnd = ifElse(
   primaryMode
 );
 
-export const calcShowDecompose = (state, id) => {
-  return pipe(
+const hasNoItems = (state, id) =>
+  pipe(
     append(__, ["byId", "items"]),
     lensPath,
     view(__, state),
     has("items"),
     not
   )(id);
+
+const isNotStarted = equals("todo");
+
+export const calcShowDecompose = (state, id, status) => {
+  return hasNoItems && isNotStarted(status);
 };
