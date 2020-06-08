@@ -1,4 +1,5 @@
 import React, { useCallback, useReducer } from "react";
+import { AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import * as R from "ramda";
 import TaskListItem from "./TaskListItem";
@@ -54,6 +55,18 @@ const reducer = (state, action) => {
   }
 };
 
+const buttonVariants = {
+  initial: {
+    opacity: 0,
+  },
+  exist: {
+    opacity: 1,
+  },
+  exit: {
+    opacity: 0,
+  },
+};
+
 const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
   const [selected, dispatch] = useReducer(reducer, []);
 
@@ -77,24 +90,56 @@ const RankList = ({ items, handleNewOrderSubmit, handleDeleteItemClick }) => {
   const showButtons = selected.length > 0;
   return (
     <Style>
-      <header>
-        {showButtons && <Button handleClick={() => handleReflowItems()}>Reorder</Button>}
-        {showButtons && <Button handleClick={() => handleReflowItemsToTop()}>Top</Button>}
-        {showButtons && <Button handleClick={() => handleReflowItemsToBottom()}>Bottom</Button>}
-      </header>
-      <ul>
-        {mapIndexed((item, index) => {
-          return (
-            <TaskListItem
-              key={item.id}
-              taskId={item}
-              selectionIndex={indexOfSelectedOrNil(index)}
-              handleClick={() => dispatch({ type: "UPDATE", payload: { index } })}
-              handleDeleteItemClick={handleDeleteItemClick}
-            />
-          );
-        })(items)}
-      </ul>
+      <AnimatePresence>
+        <header>
+          {showButtons && (
+            <Button
+              variants={buttonVariants}
+              initial="initial"
+              animate="exist"
+              exit="exit"
+              handleClick={() => handleReflowItems()}
+            >
+              Reorder
+            </Button>
+          )}
+          {showButtons && (
+            <Button
+              variants={buttonVariants}
+              initial="initial"
+              animate="exist"
+              exit="exit"
+              handleClick={() => handleReflowItemsToTop()}
+            >
+              Top
+            </Button>
+          )}
+          {showButtons && (
+            <Button
+              variants={buttonVariants}
+              initial="initial"
+              animate="exist"
+              exit="exit"
+              handleClick={() => handleReflowItemsToBottom()}
+            >
+              Bottom
+            </Button>
+          )}
+        </header>
+        <ul>
+          {mapIndexed((item, index) => {
+            return (
+              <TaskListItem
+                key={item.id}
+                taskId={item}
+                selectionIndex={indexOfSelectedOrNil(index)}
+                handleClick={() => dispatch({ type: "UPDATE", payload: { index } })}
+                handleDeleteItemClick={handleDeleteItemClick}
+              />
+            );
+          })(items)}
+        </ul>
+      </AnimatePresence>
     </Style>
   );
 };
@@ -103,6 +148,12 @@ export default RankList;
 
 const Style = styled.section`
   header {
-    height: 20px;
+    height: 1rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+    button {
+      width: 100px;
+    }
   }
 `;

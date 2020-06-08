@@ -6,11 +6,7 @@
       "model": "projects",
       "items": [
         {
-          "id": "AuXCtHS",
-          "model": "items"
-        },
-        {
-          "id": "1Rmgtro",
+          "id": "Aw9Tlxm",
           "model": "items"
         },
         {
@@ -18,11 +14,23 @@
           "model": "items"
         },
         {
-          "id": "OvtbdgS",
+          "id": "G-kHhsB",
+          "model": "items"
+        },
+        {
+          "id": "AuXCtHS",
           "model": "items"
         },
         {
           "id": "Rxly_zw",
+          "model": "items"
+        },
+        {
+          "id": "OvtbdgS",
+          "model": "items"
+        },
+        {
+          "id": "beHjYl-",
           "model": "items"
         }
       ],
@@ -298,7 +306,30 @@
     {
       "name": "second",
       "estimatedPoints": "5",
-      "id": "ngfWqJs"
+      "id": "ngfWqJs",
+      "previousStatus": {
+        "actions": [],
+        "activities": {},
+        "meta": {},
+        "events": [],
+        "value": "todo",
+        "context": {},
+        "_event": {
+          "name": "xstate.init",
+          "data": {
+            "type": "xstate.init"
+          },
+          "$$type": "scxml",
+          "type": "external"
+        },
+        "_sessionid": "x:1",
+        "event": {
+          "type": "xstate.init"
+        },
+        "children": {},
+        "done": false,
+        "nextEvents": []
+      }
     },
     {
       "name": "third",
@@ -319,11 +350,6 @@
           "model": "items"
         }
       ]
-    },
-    {
-      "name": "fifth",
-      "estimatedPoints": "4",
-      "id": "1Rmgtro"
     },
     {
       "name": "subfirst",
@@ -356,6 +382,20 @@
       "name": "things",
       "estimatedPoints": "",
       "id": "hi-vJUH"
+    },
+    {
+      "name": "fifth",
+      "id": "Aw9Tlxm"
+    },
+    {
+      "name": "sixth",
+      "estimatedPoints": "",
+      "id": "G-kHhsB"
+    },
+    {
+      "name": "seventh",
+      "estimatedPoints": "",
+      "id": "beHjYl-"
     }
   ]
 }

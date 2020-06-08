@@ -17,6 +17,7 @@ const Style = styled.div`
   width: 16px;
   height: 16px;
   display: flex;
+  border-radius: 50%;
   justify-content: center;
   align-items: center;
   font-size: 0.7rem;

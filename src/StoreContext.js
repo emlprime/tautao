@@ -147,6 +147,7 @@ export async function persist(model, id, data) {
 export function handleStart(state, action) {
   const id = prop("id", action);
   const itemPath = ["byId", "items", id];
+  const itemLens = lensPath(itemPath);
   const workLogLens = lensPath([...itemPath, "workLog"]);
 
   return pipe(
@@ -190,7 +191,7 @@ function reducer(state = {}, action) {
       const { targetPath, value } = action.payload;
 
       if (!targetPath) {
-        console.log("target path to set:", value);
+        console.log("specify target path to set:", value);
       }
 
       const [model, id] = getModelAndIdFromPath(targetPath);
@@ -199,6 +200,7 @@ function reducer(state = {}, action) {
         R.assocPath(targetPath, value),
         markAsDirty({ model, id })
       )(state);
+      console.log("newState:", newState);
 
       return newState;
     case "DELETE_LIST_ITEM":

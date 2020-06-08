@@ -72,14 +72,14 @@ const StyledRankList = styled(RankList)``;
 const Style = styled.section`
   display: flex;
   flex-direction: column;
-  header {
+  > header {
     margin-top: 1rem;
     display: grid;
     grid-template-columns: 1fr 128px;
     grid-gap: 4px;
   }
 
-  ul {
+  > ul {
     padding: 0.1rem;
     max-height: 330px;
     overflow-y: scroll;

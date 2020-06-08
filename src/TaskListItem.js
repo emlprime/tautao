@@ -33,28 +33,27 @@ function TaskListItem({ taskId, selectionIndex, handleClick, handleDeleteItemCli
   );
 
   return (
-    <AnimatePresence>
-      <Style
-        id={`item_${id}`}
-        selectionIndex={selectionIndex}
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: "2rem" }}
-        exit={{ opacity: 0, height: "-100%" }}
-      >
-        <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
-        <Link to={`/items/${id}`}>
-          <span role="img" aria-label="View Detail">
-            &#128269;
-          </span>
-        </Link>
-        <FieldText {...{ id: taskId.id, name: "name", value: name, handleChange }} />
-        <RightContent>
-          <Points {...{ value: points, handleChange }} />
-          <Progress counts={counts} />
-          <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
-        </RightContent>
-      </Style>
-    </AnimatePresence>
+    <Style
+      id={`item_${id}`}
+      selectionIndex={selectionIndex}
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "2rem" }}
+      exit={{ opacity: 0, height: "-100%" }}
+      positionTransition
+    >
+      <Handle onClick={() => handleClick(taskId)} selectionIndex={selectionIndex} />
+      <Link to={`/items/${id}`}>
+        <span role="img" aria-label="View Detail">
+          &#128269;
+        </span>
+      </Link>
+      <FieldText {...{ id: taskId.id, name: "name", value: name, handleChange }} />
+      <RightContent>
+        <Points {...{ value: points, handleChange }} />
+        <Progress counts={counts} />
+        <Button handleClick={() => handleDeleteItemClick(id)}>X</Button>
+      </RightContent>
+    </Style>
   );
 }
 

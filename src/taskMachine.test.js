@@ -1,11 +1,11 @@
 import * as R from "ramda";
-import { interpret } from "xstate";
-import initTaskMachine from "./taskMachine";
+import { State, interpret } from "xstate";
+import taskMachine from "./taskMachine";
 
 const { map } = R;
 
-const runScenario = (mockCallback, scenario, initialState) => {
-  const service = interpret(initTaskMachine(initialState))
+const runScenario = (mockCallback, scenario) => {
+  const service = interpret(taskMachine)
     .onTransition(state => mockCallback(state.value))
     .start();
   map(service.send, scenario);
@@ -22,14 +22,6 @@ describe("useTaskState", () => {
     runScenario(mockCallback, ["START", "FINISH"]);
     expect(mockCallback.mock.calls).toEqual([
       ["todo"],
-      [{ inProgress: "doing" }],
-      [{ success: "finishing" }],
-    ]);
-  });
-
-  test("alreadyInProgress", () => {
-    runScenario(mockCallback, ["FINISH"], "inProgress");
-    expect(mockCallback.mock.calls).toEqual([
       [{ inProgress: "doing" }],
       [{ success: "finishing" }],
     ]);
@@ -97,3 +89,16 @@ describe("useTaskState", () => {
     ]);
   });
 });
+
+// describe("useTaskState Persist", () => {
+//   test("alreadyInProgress", () => {
+//     mockCallback = jest.fn();
+//     const service.onTransition(state => mockCallback(state.value))
+//       .start( State.from("todo"));
+//     service.send("FINISH");
+//     expect(mockCallback.mock.calls).toEqual([
+//       [{ inProgress: "doing" }],
+//       [{ success: "finishing" }],
+//     ]);
+//   });
+// });
